@@ -21,4 +21,4 @@ app.use('/categories', categories);
 app.get("/", (req, res) => res.sendFile(__dirname + "/testUpload.html"))
 
 
-app.listen(config.port, error => console[error ? `error` : `log`](error ||  `server listening on port ${config.port}`));
+app.listen((process.env.PORT || 5000), error => console[error ? `error` : `log`](error ||  `server listening on port ${process.env.PORT || 5000}`));
