@@ -1,0 +1,70 @@
+[
+    {
+        "label": "TestBattle",
+        "properties": {
+            "actors": [
+                {
+                    "label": "Terra",
+                    "options": {
+                        "x": "550",
+                        "y": "150",
+                        "isEnemy": false
+                    }
+                },
+                {
+                    "label": "Locke",
+                    "options": {
+                        "x": "650",
+                        "y": "300",
+                        "isEnemy": false
+                    }
+                },
+                {
+                    "label": "Edgar",
+                    "options": {
+                        "x": "750",
+                        "y": "350",
+                        "isEnemy": false
+                    }
+                },
+                {
+                    "label": "Guzma",
+                    "options": {
+                        "x": "360",
+                        "y": "250",
+                        "isEnemy": true
+                    }
+                },
+                {
+                    "label": "Cyan",
+                    "options": {
+                        "x": "600",
+                        "y": "230",
+                        "isEnemy": false
+                    }
+                },
+                {
+                    "label": "TeamSkullGruntMale",
+                    "options": {
+                        "x": "150",
+                        "y": "300",
+                        "isEnemy": true
+                    }
+                },
+                {
+                    "label": "TeamSkullGruntFemale",
+                    "options": {
+                        "x": "200",
+                        "y": "200",
+                        "isEnemy": true
+                    }
+                }
+            ],
+            "preload": "scene.load.image(\"background\", \"./resources/assets/backgrounds/fantasy.jpg\");",
+            "create": "// BACKGROUND\nscene.backgroundCamera = scene.cameras.add(0, 0, 900, 500);\nscene.backgroundCamera.setBackgroundColor('rgba(120, 120, 120, 0.5)');\nscene.backgroundCamera.setTint('rgba(120, 120, 120, 1)')\n\n// BANNER\nscene.topPanel = scene.stores.BattleObjects.create(\"BannerTop\");\nscene.topPanel.play(\"hide\");\n\nscene.add.image(450, 250, \"background\");",
+            "onLose": "scene.topPanel.play(\"show\", null, {text: \"You lose!\"});\nscene.pause();",
+            "onWin": "scene.topPanel.play(\"show\", null, {text: \"You win!\"});\nscene.pause();",
+            "update": "//console.log(\"updating\")"
+        }
+    }
+]

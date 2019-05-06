@@ -1,0 +1,13 @@
+[
+    {
+        "label": "Fight",
+        "properties": {
+            "label": "Attack",
+            "action": "// PARAMETER SANITIZATION\nconst {actor, menu} = options;\nconst {Menus, Enemies, Players} = scene;\n\n// COMPUTE TARGETS\nconst targets = [];\nEnemies.forEach(a => targets.push(a.id));\nPlayers.forEach(a => targets.push(a.id));\n\n// COMPUTE COMMAND OPTIONS\nconst actionOptions = {dieRoll: actor.getAttack()};\n\n// console debug\nconst executor = actor.id;\nconst targetMenu = Menus.build(\"Targets\", targets, executor, \"SimpleAttack\", actionOptions);\nMenus.load(targetMenu);\nMenus.selectedMenu.init(() => {});"
+        }
+    },
+    {
+        "label": "mAGIC",
+        "properties": {}
+    }
+]

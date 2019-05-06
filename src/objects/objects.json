@@ -1,0 +1,165 @@
+[
+    {
+        "label": "DamageDigits",
+        "properties": {
+            "animations": [
+                {
+                    "name": "show",
+                    "body": "const {scene} = battleObject;\n// instead of setTimeout, use scene.time.addEvent\nbattleObject.data.timer = scene.time.addEvent({\n    delay: 500,\n    callback: callback,\n    loop: false\n});"
+                }
+            ],
+            "build": "const {x, y, text} = options;\nconst size = 42;\n\nbattleObject.data.text = scene.stores.BattleObjects.create(\"PhaserText\", {x, y, depth: 100001, text, size});",
+            "destroy": "",
+            "preload": ""
+        }
+    },
+    {
+        "label": "PhaserText",
+        "properties": {
+            "animations": [],
+            "build": "const {x, y, depth=0, text, color = '#333', size = 32} = options;\n\nconst phaserText = scene.add.text(x, y, text)\n\t.setPadding({x: 16, y: 2})\n\t.setOrigin(0.5)\n    .setStroke(color, 6)\n    .setFontSize(size)\n    .setFontStyle('bold')\n    .setFontFamily('Arial');\n\nphaserText.depth = depth;\n    \nbattleObject.data.text = phaserText;\n\n\n// METHODS. \nbattleObject.setInteractive = () => {\n\tbattleObject.data.text.setInteractive();\n};\n\nbattleObject.on = (...args) => {\n\tbattleObject.data.text.on(...args);\n};\n\nbattleObject.setOrigin = o => {\n    battleObject.data.text.setOrigin(o);\n};\n\nbattleObject.setPosition = ({x, y}) => {\n\t//console.log(\"set position text: \", x, y);\n    battleObject.data.text.x = x || battleObject.data.text.x;\n    battleObject.data.text.y = y || battleObject.data.text.y;\n};\n\nbattleObject.getPosition = () => {\n    const {x, y} = battleObject.data.text;\n\t//console.log(\"got position text: \", x, y);\n    return {x, y};\n};\n\nbattleObject.setTint = (...args) => {\n\tbattleObject.data.text.setTint(...args);\n};\n\nbattleObject.setColor = (...args) => {\n    battleObject.data.text.setColor(...args);\n};\n\nbattleObject.getColor = () => {\n    return battleObject.data.text.getColor();\n};\n\nbattleObject.getText = () => {\n\treturn battleObject.data.text.text;\n};\n\nbattleObject.setText = text => {\n\tbattleObject.data.text.text = text;\n}",
+            "destroy": "",
+            "preload": ""
+        }
+    },
+    {
+        "label": "BluePanel",
+        "properties": {
+            "animations": [
+                {
+                    "name": "open",
+                    "body": "battleObject.data.tweenMap.open = battleObject.scene.tweens.addCounter({\n    from: 0,\n    to: battleObject.data.width,\n    duration: 300,\n    ease: 'Sine.easeInOut',\n    onUpdate: (e, {value}) => {\n        const w = value;\n        const h = w * battleObject.data.height / battleObject.data.width;\n        const px = (battleObject.data.width - w) / 2;\n        const py = (battleObject.data.height - h) / 2;\n        battleObject.draw( px, py, w, h, true );\n    },\n    onComplete: callback\n});\n    \n    \n    \n    \n    "
+                },
+                {
+                    "name": "close",
+                    "body": "battleObject.data.tweenMap.close = battleObject.scene.tweens.addCounter({\n    from: 0,\n    to: battleObject.data.width,\n    duration: 300,\n    ease: 'Sine.easeInOut',\n    onUpdate: (e, {value}) => {\n        const w = battleObject.data.width - value;\n        const h = w * battleObject.data.height / battleObject.data.width;\n        const px = (battleObject.data.width - w) / 2;\n        const py = (battleObject.data.height - h) / 2;\n        battleObject.draw( px, py, w, h );\n    },\n    onComplete: callback\n});"
+                }
+            ],
+            "build": "const {x = 0, y = 0, width = 100, height = 100} = options;\n\nbattleObject.graphic = scene.add.graphics();\nbattleObject.data.tweenMap = { };\n\nbattleObject.data.x = x;\nbattleObject.data.y = y;\nbattleObject.data.width = width;\nbattleObject.data.height = height;\n\n// COLORS\nconst topColor        = 0x1122a2;\nconst bottomColor     = 0x5ea6ee;\nconst topColorLine    = 0x111111;\nconst bottomColorLine = 0xd2d2d2;\n\n\n// METHODS\n\n// draw\nbattleObject.draw = (x, y, width, height, clear = true) => {\n\tconst {graphic} = battleObject;\n\tx = x || battleObject.data.x; \n\ty = y || battleObject.data.y; \n\twidth = width || battleObject.data.width; \n\theight = height || battleObject.data.height;\n\t\n    clear ? graphic.clear() : null;\n    battleObject.drawWebGL(x, y, width, height);\n} \n\n\nbattleObject.drawWebGL = (x, y, width, height) => {\n\t\n\tconst {graphic} = battleObject;\n\n    // menu border decoration\n    graphic.lineGradientStyle(4, bottomColorLine, bottomColorLine, topColorLine, topColorLine);\n    graphic.strokeRoundedRect(x, y, width, height, 4);\n    graphic.lineGradientStyle(4, topColorLine, topColorLine, bottomColorLine, bottomColorLine);\n    graphic.strokeRoundedRect(x - 2, y - 2, width + 4, height + 4, 4);\n    ///////////////////\n\n    // menu border's border!\n    graphic.lineStyle(2, topColorLine, 0.5);\n    graphic.strokeRoundedRect(x - 3, y - 3, width + 6, height + 6, 5);\n    graphic.lineStyle(2, topColorLine, 0.5);\n    graphic.strokeRoundedRect(x + 2, y + 2, width - 4, height - 4, 2);\n    ///////////////////\n\n    // menu background\n    graphic.fillGradientStyle(bottomColor, bottomColor, topColor, topColor);\n    graphic.fillRect(x, y, width, height);\n    ///////////////////\n}\n\n\nbattleObject.drawCanvas = (x, y, width, height) => {\n\n    // menu border decoration\n    battleObject.data.graphic.lineStyle(4, bottomColorLine);\n    battleObject.data.graphic.strokeRect(x, y, width, height, 4);\n    battleObject.data.graphic.lineStyle(4, bottomColorLine);\n    battleObject.data.graphic.strokeRect(x - 2, y - 2, width + 4, height + 4, 4);\n    ///////////////////\n\n    // menu border's border!\n    battleObject.data.graphic.lineStyle(2, topColorLine, 0.5);\n    battleObject.data.graphic.strokeRect(x - 3, y - 3, width + 6, height + 6, 5);\n    battleObject.data.graphic.lineStyle(2, topColorLine, 0.5);\n    battleObject.data.graphic.strokeRect(x + 2, y + 2, width - 4, height - 4, 2);\n    ///////////////////\n    \n    // menu background\n    battleObject.data.graphic.fillStyle(0x1100aa);\n    battleObject.data.graphic.fillRect(x, y, width, height);\n    ///////////////////\n}\n\n\nbattleObject.setVisible = bool => {\n\tconst {graphic} = battleObject;\n\tgraphic.visible = bool;\n};",
+            "destroy": "",
+            "preload": ""
+        }
+    },
+    {
+        "label": "BannerTop",
+        "properties": {
+            "animations": [
+                {
+                    "name": "show",
+                    "body": "//code here\nconst {text=\"\"} = options;\n\nbattleObject.data.panel.setVisible(true);\nbattleObject.data.text.data.text.visible = true;\nbattleObject.data.text.data.text.text = text;\ncallback();"
+                },
+                {
+                    "name": "hide",
+                    "body": "battleObject.data.panel.setVisible(false);\nbattleObject.data.text.data.text.visible = false;\nbattleObject.data.text.data.text.text = \"\";\ncallback();"
+                },
+                {
+                    "name": "popup",
+                    "body": "// PARAMETER SANITIZATION\nconst {scene} = battleObject;\nconst {delay = 1000, text} = options;\n\n// \nbattleObject.play(\"show\", () => {\n\tbattleObject.data.timer = scene.time.addEvent({\n\t    delay,\n\t    callback: () => battleObject.play(\"hide\", callback),\n\t    loop: false\n\t});\n}, {text});"
+                }
+            ],
+            "build": "const {text = \"\"} = options;\n\nconst panelOptions = {x: 200, y: 5, width: 500, height: 50};\nbattleObject.data.panel = scene.stores.BattleObjects.create(\"BluePanel\", panelOptions);\nbattleObject.data.panel.draw();\n\nconst textOptions = {x: 450, y: 30, text, size: 42};\nbattleObject.data.text = scene.stores.BattleObjects.create(\"PhaserText\", textOptions);\n",
+            "destroy": "",
+            "preload": ""
+        }
+    },
+    {
+        "label": "FillBar",
+        "properties": {
+            "animations": [],
+            "build": "// PARAMETER SANITIZATION\nconst __MAX_VALUE = 100;\nconst {\n\tx = 200, y = 200, depth = 0, value = __MAX_VALUE,\n\theight = 16, width = 100, \n\tbackgroundColor = 0xffffff,\n\tborderColor = 0x000000, borderWidth = 2,\n\tfillColor = 0x00ff00\n} = options;\n\nconst backgroundColorMap = (backgroundColor === Object(backgroundColor)) ? backgroundColor : {0: backgroundColor};\nconst borderColorMap = (borderColor === Object(borderColor)) ? borderColor : {0: borderColor};\nconst fillColorMap = (fillColor === Object(fillColor)) ? fillColor : {0: fillColor};\n\n\n// BUILDING OBJECT\nbattleObject.data = {\n    x, y, depth,\n    height, width, \n    borderWidth\n};\n\n\n// PHASER 3 GRAPHICS\nbattleObject.data.borderBar = scene.add.graphics();\nbattleObject.data.backBar = scene.add.graphics();\nbattleObject.data.fillBar = scene.add.graphics();\nbattleObject.data.borderBar.depth = depth;\nbattleObject.data.backBar.depth = depth;\nbattleObject.data.fillBar.depth = depth + 1;\n\n// PROPERTIES\nbattleObject.data.x = x;\nbattleObject.data.y = y;\nbattleObject.data.width = width;\nbattleObject.data.height = height;\n\nbattleObject.data.backgroundColorMap = backgroundColorMap;\nbattleObject.data.borderColorMap = borderColorMap;\nbattleObject.data.fillColorMap = fillColorMap;\n\nbattleObject.data.borderWidth = borderWidth;\nbattleObject.data.value = value;\n\n\n\n// METHODS\nbattleObject.setVisible = bool => {\n\tbattleObject.data.borderBar.visible = bool;\n\tbattleObject.data.backBar.visible = bool;\n\tbattleObject.data.fillBar.visible = bool;\n};\n\nbattleObject.draw = (value = battleObject.data.value, clear = true) => {\n\t\n\tconst {\n\t\tx, y,\n\t\theight, width,\n\t\tborderWidth,\n\t\tfillColorMap,\n\t\tborderColorMap,\n\t\tbackgroundColorMap\n\t} = battleObject.data;\n\tbattleObject.data.value = value % (__MAX_VALUE + 1);\n\n\t//  BG (Border)\n\tconst borderColor = colorFromValueMap(borderColorMap);\n\tstrokeRound(x, y, width, height, borderColor, battleObject.data.borderBar);\n\n\t//  Health (Background)\n\tconst backgroundColor = colorFromValueMap(backgroundColorMap);\n\tfillRound(\n\t\tx + borderWidth, \n\t\ty + borderWidth, \n\t\twidth - borderWidth * 2, \n\t\theight - borderWidth * 2, \n\t\tbackgroundColor,\n\t\tbattleObject.data.backBar\n\t);\n\n\t// Health (fill)\n\tconst fillColor = colorFromValueMap(fillColorMap);\n\tfillRound(\n\t\tx + borderWidth, \n\t\ty + borderWidth, \n\t\tMath.floor(value * (width - borderWidth * 2) / __MAX_VALUE), \n\t\theight - borderWidth * 2,\n\t\tfillColor,\n\t\tbattleObject.data.fillBar\n\t);\n}\n\n\n\n\n\n// HELPERS\nfunction fillRound (x, y, width, height, color, graphics, clear = true) {\n\tclear ? graphics.clear() : null;\n\tgraphics.x = x;\n\tgraphics.y = y;\n\tgraphics.fillStyle(color);\n\tconst round = (width < height) ? 0 : Math.floor(height / 2) - 1;\n\tgraphics.fillRoundedRect(0, 0, width, height, round );\n};\n\nfunction strokeRound (x, y, width, height, color, graphics, clear = true) {\n\tclear ? graphics.clear() : null;\n\tgraphics.x = x;\n\tgraphics.y = y;\n\tgraphics.lineStyle(1, color, 1);\n\tconst round = (width < height) ? 0 : Math.floor(height / 2) - 1;\n\tgraphics.strokeRoundedRect(0, 0, width, height, round );\n};\n\nfunction colorFromValueMap (colorMap) {\n\tconst {value} = battleObject.data;\n\tlet colorKey = true;\n\tconst rangeMap = Object.keys(colorMap);\n\t\n\trangeMap.forEach(key => {\n\t\tif (key <= value && colorKey) {\n\t\t\tcolorKey = key;\n\t\t}\n\t});\n\t\n\treturn colorMap[colorKey];\n};",
+            "destroy": "",
+            "preload": ""
+        }
+    },
+    {
+        "label": "PlayerBars",
+        "properties": {
+            "animations": [],
+            "build": "const {actor} = options;\nconst {Sprite, placeholder} = actor;\nconst isAlly = actor.isAlly();\n\nconst deltaY = placeholder.y + (isAlly ? 30 : 0 );\nconst deltaX = placeholder.x + (isAlly ? 100 - Sprite.displayWidth : Sprite.displayWidth) / 2;\n\n// HEALTH\nconst healthBarOptions = computeHealthBarOptions(Sprite, isAlly);\nbattleObject.data.healthBar = scene.stores.BattleObjects.create(\"FillBar\", healthBarOptions);\nbattleObject.data.healthBar.draw();\n\n// DIGITS\nconst healthDigitsOptions = computeHealthDigitsOptions(actor);\nconst healthDigits = scene.stores.BattleObjects.create(\"PhaserText\", healthDigitsOptions);\nhealthDigits.setOrigin(1);\nbattleObject.data.healthDigits = healthDigits;\nrefreshHealthDigits(actor);\n\n// MANA\nconst manaBarOptions = computeManaBarOptions(Sprite, isAlly);\nbattleObject.data.manaBar = scene.stores.BattleObjects.create(\"FillBar\", manaBarOptions);\nbattleObject.data.manaBar.draw();\n\n// ATB\nconst atbBarOptions = computeATBOptions(Sprite, isAlly);\nbattleObject.data.atbBar = scene.stores.BattleObjects.create(\"FillBar\", atbBarOptions);\nbattleObject.data.atbBar.draw();\n\n\n// METHODS\nbattleObject.refresh = bool => {\n\t\n\tconst maxLife = actor.getMaxLife();\n\tconst life = actor.getLife();\n\tconst lifeValue = 100 * life / maxLife;\n\t\n\tconst maxMana = actor.getMaxMana();\n\tconst mana = actor.getMana();\n\tconst manaValue = 100 * mana / maxMana;\n\t\n\tbattleObject.data.healthBar.draw(lifeValue);\n\tbattleObject.data.manaBar.draw(manaValue);\n\trefreshHealthDigits(actor)\n};\n\nbattleObject.setATBValue = value => battleObject.data.atbBar.draw(value);\nbattleObject.atbVisible = bool => battleObject.data.atbBar.setVisible(bool);\n\n// HELPERS\nfunction computeHealthBarOptions({x, y, z, displayWidth, displayHeight}, isAlly) {\n\n\tx = deltaX;\n\ty = deltaY;\n\t\n\treturn {\n\t\tx, y, depth: 100000,\n\t    width: 100, height: 12, \n\t    fillColor: {0: 0xff0000, 30: 0xcbcb46, 60: 0x00ff00}, \n\t    borderWidth: 2\n\t};\n}\n\n\n\nfunction computeManaBarOptions({x, y, z, displayWidth, displayHeight}, isAlly) {\n\n\tx = deltaX;\n\ty = deltaY + 12;\n\t\n\treturn {\n\t\tx, y, depth: 100000,\n\t    width: 60, height: 8, \n\t    fillColor: {0: 0xff5555, 30: 0xcbab77, 60: 0x0000ff}, \n\t    borderWidth: 1\n\t};\n}\n\nfunction computeATBOptions({x, y, z, displayWidth, displayHeight}, isAlly) {\n\n\tx = deltaX;\n\ty = deltaY + 20;\n\t\n\treturn {\n\t\tx, y, depth: 100000,\n\t    width: 80, height: 8, \n\t    fillColor: {0: 0xcbab77, 100: 0x00ff00}, \n\t    borderWidth: 1,\n\t    backgroundColor: 0x666666\n\t};\n}\n\nfunction computeHealthDigitsOptions(actor) {\n\tconst {Sprite} = actor;\n\tconst isAlly = actor.isAlly();\n\tconst {x, y, depth} = computeHealthBarOptions(Sprite, isAlly);\n\t\n\treturn {\n\t\tx: x + 100, y: y + 4, \n\t\tdepth, \n\t\ttext: \"9999 / 9999\", \n\t\tsize: 16\n\t}\n}\n\nfunction refreshHealthDigits(actor) {\n\tconst maxLife = actor.getMaxLife();\n\tconst curLife = actor.getLife();\n\tbattleObject.data.healthDigits.setText( curLife + \" / \" + maxLife );\n}",
+            "destroy": "",
+            "preload": ""
+        }
+    },
+    {
+        "label": "PlayerIndicator",
+        "properties": {
+            "animations": [
+                {
+                    "name": "float",
+                    "body": "const {scene, data} = battleObject;\nconst {graphic} = data;\nconst initialPositionY = graphic.y;\n\nconst { amplitude = 10, duration = 500 } = options;\n\ndata.tween = scene.tweens.addCounter({\n    from: initialPositionY,\n    to: initialPositionY + amplitude,\n    duration,\n    yoyo: true,\n    repeat: -1,\n    onUpdate: e => { graphic.y = e.getValue(); }\n});"
+                }
+            ],
+            "build": "const fillColor = 0x4477dd;\nconst lineColor = 0x223311;\n\nconst {x, y, amplitude, duration, side = 20} = options;\nconst graphic =  scene.add.graphics();\ngraphic.depth = 100001;\n\nconst x1 = x - side;\nconst x2 = x + side;\nconst x3 = x;\n\nconst y1 = y;\nconst y2 = y;\nconst y3 = y + side;\n\ngraphic.fillStyle(fillColor, 1);\ngraphic.lineStyle(2, lineColor, 1);\ngraphic.fillTriangle(x1, y1, x2, y2, x3, y3);\ngraphic.strokeTriangleShape({x1, y1, x2, y2, x3, y3});\n\nbattleObject.data.graphic = graphic;\nbattleObject.play(\"float\", () => {}, {duration, amplitude});",
+            "destroy": "",
+            "preload": ""
+        }
+    },
+    {
+        "label": "AnimationStepUp",
+        "properties": {
+            "animations": [
+                {
+                    "name": "forward",
+                    "body": "const {data, scene} = battleObject;\nconst {dontDestroy, distance = 50, duration = 500} = data;\nconst {Sprite} = dontDestroy;\nconst {x} = Sprite;\n\nscene.tweens.addCounter({\n    from: x,\n    to: x - distance,\n    duration,\n    ease: 'Sine.easeInOut',\n    onUpdate: (e, {value}) => { Sprite.x = value; },\n    onComplete: callback\n});"
+                },
+                {
+                    "name": "backward",
+                    "body": "const {data, scene} = battleObject;\nconst {dontDestroy, distance = 50, duration = 500} = data;\nconst {Sprite} = dontDestroy;\nconst {x} = Sprite;\n\nscene.tweens.addCounter({\n    from: x,\n    to: x + distance,\n    duration,\n    ease: 'Sine.easeInOut',\n    onUpdate: (e, {value}) => { Sprite.x = value; },\n    onComplete: callback\n});"
+                },
+                {
+                    "name": "two steps",
+                    "body": "const {isAlly = true, middleCall = function(c) { c(); }} = options;\r\nconst a = isAlly ? \"forward\" : \"backward\";\r\nconst b = isAlly ? \"backward\" : \"forward\";\r\n\r\nbattleObject.play(a, () => middleCall( () => battleObject.play(b, callback) ) );"
+                }
+            ],
+            "build": "const {Sprite, distance, duration} = options;\nconst data = {\n\tdontDestroy: { Sprite },\n\tdistance, duration\n};\n\nbattleObject.data = data;",
+            "destroy": "",
+            "preload": ""
+        }
+    },
+    {
+        "label": "MuzzleFlash1",
+        "properties": {
+            "animations": [
+                {
+                    "name": "flash",
+                    "body": "const {scene, data} = battleObject;\n\ndata.tweenMap.open = scene.tweens.addCounter({\n    from: 0,\n    to: 1,\n    duration: 120,\n    ease: 'Power1.easeInOut',\n    onUpdate: (e, {value}) => battleObject.setSizeScale(value),\n    onComplete: callback\n});\n    "
+                }
+            ],
+            "build": "const {x, y, depth} = options;\nbattleObject.data.tweenMap = {};\nbattleObject.data.muzzle = scene.add.image(x, y, \"muzzleflash2\");\nbattleObject.data.muzzle.depth = depth;\n\nbattleObject.setSizeScale = value => {\n\tbattleObject.data.muzzle.scaleX = value;\n\tbattleObject.data.muzzle.scaleY = value;\n}\n\nbattleObject.setSizeScale(0);",
+            "destroy": "",
+            "preload": "scene.load.image(\"muzzleflash2\", \"assets/particles/muzzleFlash2.png\");"
+        }
+    },
+    {
+        "label": "MenuItem",
+        "properties": {
+            "animations": [],
+            "build": "// OPTIONS\nconst color1 = 0xcfde00;\nconst color2 = 0xffff00;\n\n// PARAMETERS SANITIZATION\nconst {\n\ttext = \"\", \n    action = function() {}, \n    argArray = [],\n    x = 0, y = 0,\n    style = {}\n} = options;\n\n\n// PROPERTIES\nconst textOptions = {text, x, y, size: 32};\nconst item = scene.stores.BattleObjects.create(\"PhaserText\", textOptions);\nbattleObject.argArray = argArray;\nbattleObject.actionWhenActive = () => {\n    if(battleObject.alreadySelected) {\n        return;\n    }\n    \n    ///////////////////////////////////////////////\n    // INSTEAD, SHOULD DISABLE THE A KEY MOMENTARLY\n    ///////////////////////////////////////////////\n    battleObject.alreadySelected = true;\n    setTimeout(() => {\n        battleObject.alreadySelected = false;\n    },200);\n    ///////////////////////////////////////////////\n    ///////////////////////////////////////////////\n    ///////////////////////////////////////////////\n    \n    action(...battleObject.argArray);\n}\n\n\nbattleObject.data.item = item;\nbattleObject.x = x;\nbattleObject.y = y;\n\n\n// METHODS\nbattleObject.select = () => item.setTint(color1, color1, color2, color2);\nbattleObject.deselect = () => item.setTint(0xffffff);\n\nbattleObject.getPosition = () => { return item.getPosition(); }\nbattleObject.setPosition = (...args) => item.setPosition(...args);\n\nbattleObject.setOrigin = arg => item.setOrigin(arg);\nbattleObject.setColor = arg =>  item.setColor(arg);\n\n",
+            "destroy": "",
+            "preload": ""
+        }
+    },
+    {
+        "label": "AnimationDeath",
+        "properties": {
+            "animations": [
+                {
+                    "name": "fade",
+                    "body": "const {scene} = battleObject;\nconst {actor} = options;\nconst {Sprite} = actor;\n\nbattleObject.tintTween(scene, {\n\tonUpdate: tween => {\n\t\tconst value = Math.floor(tween.getValue());\n\t\tconst value2 = value * 100 / 255;\n\t\t\n\t\tconst r = 255 - (50 - value2 / 2);\n\t\tconst g = value;\n\t\tconst b = 255 - (50 - value2 / 2);\n\t\tconst a = value2 / 50;\n\n\t\tSprite.setTint( Phaser.Display.Color.GetColor(r, g, b) );\n\t\tSprite.alpha = a;\n\t},\n\tonComplete: () => {\n\t\tcallback();\n\t}\n});"
+                }
+            ],
+            "build": "battleObject.tintTween = options => {\n\toptions = Object.assign({\n\t\tfrom: 255,\n\t\tto: 0,\n\t\tduration: 1000,\n\t\tonUpdate: tween => {},\n\t\tonComplete: () => {}\n\t}, options);\n\n\tscene.tweens.addCounter(options);\n}",
+            "destroy": "",
+            "preload": ""
+        }
+    },
+    {
+        "label": "ActivableMenuItem",
+        "properties": {
+            "animations": [],
+            "build": "\nconst {\n    text, \n    action,\n    argArray,\n    x, y,\n    style,\n    active = true\n} = options;\n\n\nconst itemOptions = {text, action, argArray, x, y, style};\nconst item = scene.stores.BattleObjects.create(\"MenuItem\", itemOptions);\n\n\n// PROPERTIES\nbattleObject.data.item = item;\nbattleObject.itemIsActive = active;\nbattleObject.actionWhenActive = item.actionWhenActive;\n\n// METHODS\nbattleObject.action = () => {\n    battleObject.itemIsActive ? item.actionWhenActive() : null;\n};\n\nbattleObject.select = () => {\n    battleObject.itemIsActive ? item.select() : battleObject.inactive();\n};\n\nbattleObject.deselect = () => {\n\tbattleObject.itemIsActive ? item.deselect() : battleObject.inactive();\n};\n\nbattleObject.inactive = () => item.setColor(\"#888\");\n\n// INHERIT\nbattleObject.setOrigin = arg => item.setOrigin(arg);\nbattleObject.getPosition = () => { return item.getPosition(); };\nbattleObject.setPosition = (...args) => item.setPosition(...args);\n/**/",
+            "destroy": "",
+            "preload": ""
+        }
+    }
+]

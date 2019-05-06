@@ -1,0 +1,130 @@
+[
+    {
+        "label": "Terra",
+        "content": "",
+        "properties": {
+            "src": "ffviCast.png",
+            "frameWidth": 170,
+            "frameHeight": 189,
+            "frameX": 0,
+            "frameY": 0,
+            "scaleX": 100,
+            "scaleY": 100
+        },
+        "categoryViewTemplate": "showSpriteTemplate"
+    },
+    {
+        "label": "kefka",
+        "content": "",
+        "properties": {
+            "src": "ffviCast.png",
+            "frameWidth": 170,
+            "frameHeight": 189,
+            "frameX": 3,
+            "frameY": 3
+        },
+        "categoryViewTemplate": "showSpriteTemplate"
+    },
+    {
+        "label": "guzma",
+        "content": "",
+        "properties": {
+            "src": "Guzma.png",
+            "frameWidth": 224,
+            "frameHeight": 339,
+            "frameX": 0,
+            "frameY": 0,
+            "scaleX": 50,
+            "scaleY": 50
+        },
+        "categoryViewTemplate": "showSpriteTemplate"
+    },
+    {
+        "label": "dio bardo",
+        "content": "",
+        "properties": {
+            "src": "dioBardo.png",
+            "frameWidth": "324",
+            "frameHeight": "324",
+            "frameX": "0",
+            "frameY": "0"
+        },
+        "categoryViewTemplate": "showSpriteTemplate"
+    },
+    {
+        "label": "Locke",
+        "properties": {
+            "src": "ffviCast.png",
+            "frameX": "2",
+            "frameY": "0",
+            "frameWidth": "170",
+            "frameHeight": "189"
+        }
+    },
+    {
+        "label": "Edgar",
+        "properties": {
+            "src": "ffviCast.png",
+            "frameX": "3",
+            "frameY": "0",
+            "frameWidth": "170",
+            "frameHeight": "189"
+        }
+    },
+    {
+        "label": "Cyan",
+        "properties": {
+            "src": "ffviCast.png",
+            "frameX": "2",
+            "frameY": "1",
+            "frameWidth": "170",
+            "frameHeight": "189"
+        }
+    },
+    {
+        "label": "Gogo",
+        "properties": {
+            "src": "ffviCast.png",
+            "frameX": "2",
+            "frameY": 3,
+            "frameWidth": "170",
+            "frameHeight": "189"
+        }
+    },
+    {
+        "label": "Wizard",
+        "properties": {
+            "src": "1050130_atk.png",
+            "frameX": 1,
+            "frameY": 0,
+            "frameWidth": 99,
+            "frameHeight": 95,
+            "scaleX": 170,
+            "scaleY": 170
+        }
+    },
+    {
+        "label": "teamskullgrunt",
+        "properties": {
+            "src": "teamSkullGrunts.png",
+            "frameX": 0,
+            "frameY": 0,
+            "frameWidth": 300,
+            "frameHeight": 650,
+            "scaleX": 35,
+            "scaleY": 35
+        }
+    },
+    {
+        "label": "teamskullgrunt2",
+        "properties": {
+            "src": "teamSkullGrunts.png",
+            "frameX": 1,
+            "frameY": 0,
+            "frameWidth": 300,
+            "frameHeight": 650,
+            "scaleX": 35,
+            "scaleY": 35
+        }
+    }
+]

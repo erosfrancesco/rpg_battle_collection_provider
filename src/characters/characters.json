@@ -1,0 +1,228 @@
+[
+    {
+        "label": "Terra",
+        "properties": {
+            "name": "Terra",
+            "isEnemy": false,
+            "AI": "1",
+            "sprite": "0",
+            "actorCommands": [
+                0
+            ],
+            "stats": {
+                "health": 1,
+                "mana": 1,
+                "strenght": 1,
+                "defense": 1,
+                "velocity": 1,
+                "intelligence": 1,
+                "magic": 1
+            }
+        }
+    },
+    {
+        "label": "Locke",
+        "properties": {
+            "name": "Locke",
+            "isEnemy": false,
+            "sprite": "4",
+            "actorCommands": [
+                0
+            ],
+            "stats": {
+                "health": 100,
+                "mana": 20,
+                "strenght": 1200,
+                "defense": 3,
+                "velocity": 5,
+                "intelligence": 11,
+                "magic": 7
+            }
+        }
+    },
+    {
+        "label": "Kefka",
+        "properties": {
+            "name": "Kefka",
+            "isEnemy": true,
+            "AI": "0",
+            "sprite": "1",
+            "actorCommands": [
+                0
+            ],
+            "stats": {
+                "health": 100,
+                "mana": 500,
+                "strenght": 3,
+                "defense": 5,
+                "velocity": 4,
+                "intelligence": 18,
+                "magic": 19
+            }
+        }
+    },
+    {
+        "label": "Edgar",
+        "properties": {
+            "name": "Edgar",
+            "isEnemy": false,
+            "sprite": "5",
+            "actorCommands": [
+                0
+            ],
+            "stats": {
+                "health": 300,
+                "mana": 50,
+                "strenght": 17,
+                "defense": 18,
+                "velocity": 6,
+                "intelligence": 6,
+                "magic": 4
+            }
+        }
+    },
+    {
+        "label": "Cyan",
+        "properties": {
+            "name": "Cyan",
+            "isEnemy": false,
+            "sprite": "6",
+            "actorCommands": [
+                0
+            ],
+            "stats": {
+                "health": 100,
+                "mana": 60,
+                "strenght": 18,
+                "defense": 4,
+                "velocity": 1,
+                "intelligence": 10,
+                "magic": 10
+            }
+        }
+    },
+    {
+        "label": "Gogo",
+        "properties": {
+            "name": "Gogo",
+            "sprite": "7",
+            "actorCommands": [
+                0
+            ],
+            "stats": {
+                "health": 100,
+                "mana": 10,
+                "strenght": 11,
+                "defense": 8,
+                "velocity": 8,
+                "intelligence": 8,
+                "magic": 7
+            }
+        }
+    },
+    {
+        "label": "Wizard",
+        "properties": {
+            "name": "wizard",
+            "isEnemy": true,
+            "AI": "0",
+            "sprite": "8",
+            "actorCommands": [
+                0
+            ],
+            "stats": {
+                "health": 80,
+                "mana": 100,
+                "strenght": 2,
+                "defense": 2,
+                "velocity": 8,
+                "intelligence": 4,
+                "magic": 6
+            }
+        }
+    },
+    {
+        "label": "Guzma",
+        "properties": {
+            "name": "Guzma",
+            "isEnemy": true,
+            "AI": "0",
+            "sprite": "2",
+            "actorCommands": [
+                0
+            ],
+            "stats": {
+                "health": 20,
+                "mana": 10,
+                "strenght": 10,
+                "defense": 2,
+                "velocity": 4,
+                "intelligence": 1,
+                "magic": 2
+            }
+        }
+    },
+    {
+        "label": "Dio Bardo",
+        "properties": {
+            "name": "Dio Bardo",
+            "isEnemy": true,
+            "AI": "0",
+            "sprite": "3",
+            "actorCommands": [
+                0
+            ],
+            "stats": {
+                "health": 100,
+                "mana": 100,
+                "strenght": 10,
+                "defense": 13,
+                "velocity": 8,
+                "intelligence": 11,
+                "magic": 17
+            }
+        }
+    },
+    {
+        "label": "TeamSkullGruntMale",
+        "properties": {
+            "name": "Grunt",
+            "isEnemy": true,
+            "AI": "1",
+            "sprite": "9",
+            "actorCommands": [
+                0
+            ],
+            "stats": {
+                "health": 1,
+                "mana": 1,
+                "strenght": 1,
+                "defense": 1,
+                "velocity": 1,
+                "intelligence": 1,
+                "magic": 1
+            }
+        }
+    },
+    {
+        "label": "TeamSkullGruntFemale",
+        "properties": {
+            "name": "Grunt",
+            "isEnemy": true,
+            "AI": "1",
+            "sprite": "10",
+            "actorCommands": [
+                0
+            ],
+            "stats": {
+                "health": 1,
+                "mana": 1,
+                "strenght": 1,
+                "defense": 1,
+                "velocity": 1,
+                "intelligence": 1,
+                "magic": 1
+            }
+        }
+    }
+]

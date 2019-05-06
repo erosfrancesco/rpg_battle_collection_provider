@@ -1,0 +1,16 @@
+[
+    {
+        "label": "ai test",
+        "properties": {
+            "functionBody": "const executor = actor.id;\nconst target = actor.getOtherRegistry().random().id;\nactor.executingAction = scene.stores.Actions.create(\"SimpleAttack\", {executor, target});\ncallback();",
+            "functionHeader": "scene, actor, callback"
+        }
+    },
+    {
+        "label": "grunt ai",
+        "properties": {
+            "functionBody": "const executor = actor.id;\nconst targets = actor.getOtherRegistry();\n\n// compute player with max atk,\nlet target = false;\nlet maxAtk = 0;\ntargets.forEach(actor => {\n\tlet actorAtk = actor.getAttack();\n\tif (actorAtk > maxAtk) {\n\t\tmaxAtk = actorAtk;\n\t\ttarget = actor.id;\n\t}\n});\n\ntarget = target || targets.random().id;\n\nconsole.log(\"chose\", target, \"with atk:\", maxAtk)\n\nactor.executingAction = scene.stores.Actions.create(\"Dissing\", {executor, target});\ncallback();",
+            "functionHeader": "scene, actor, callback"
+        }
+    }
+]
