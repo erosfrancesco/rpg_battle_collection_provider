@@ -17,8 +17,20 @@ app.use('/groups', groups);
 const categories = require('./routings/categories.js');
 app.use('/categories', categories);
 
-//upload test
-app.get("/", (req, res) => res.sendFile(__dirname + "/testUpload.html"))
+
+//test
+app.get("/", async (req, res) => {
+	await createTestUser("piipo user");
+	res.json( await models.User.findByLogin("piipo user") )
+});
+
+app.get("/upload", async (req, res) => res.sendFile(__dirname + "/testUpload.html") );
 
 
-app.listen((process.env.PORT || 5000), error => console[error ? `error` : `log`](error ||  `server listening on port ${process.env.PORT || 5000}`));
+
+const { connectDb, models } = require('./src/models');
+
+const createTestUser = async username => await models.User({username}).save();
+
+const serverInitResponseHandler = error => console[error ? `error` : `log`](error ||  `server listening on port ${process.env.PORT}`); 
+connectDb().then(() => app.listen(process.env.PORT, serverInitResponseHandler) );
