@@ -3,9 +3,9 @@
 /*********************************************************************/
 process.chdir(__dirname);
 
-require('dotenv').config();
+//require('dotenv').config();
 const express = require('express');
-const config = require('./config');
+//const config = require('./config');
 const app = express();
 
 const assets = require('./routings/assets');
@@ -30,12 +30,20 @@ app.get("/upload", async (req, res) => res.sendFile(__dirname + "/testUpload.htm
 
 
 /*
+
+const mongoose = require('mongoose')
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://127.0.0.1:27017/TodoApp');
+
+
+
+
 const { connectDb, models } = require('./src/models');
 
 const createTestUser = async username => await models.User({username}).save();
-/**/
+/**
 
 const serverInitResponseHandler = error => console[error ? `error` : `log`](error ||  `server listening on port ${process.env.PORT}`); 
 const db = require("./db");
 db.then(() => app.listen(process.env.PORT, serverInitResponseHandler) );
+/**/
 
