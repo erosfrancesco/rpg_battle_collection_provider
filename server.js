@@ -1,13 +1,13 @@
 /*********************************************************************/
 /* PROCESS */
 /*********************************************************************/
-process.chdir(__dirname);
+//process.chdir(__dirname);
 
 //require('dotenv').config();
 const express = require('express');
 //const config = require('./config');
 const app = express();
-
+/*
 const assets = require('./routings/assets');
 app.use('/assets', assets);
 
@@ -25,7 +25,7 @@ app.get("/", async (req, res) => {
 });
 /**/
 
-app.get("/upload", async (req, res) => res.sendFile(__dirname + "/testUpload.html") );
+app.get("/", async (req, res) => res.sendFile(__dirname + "/testUpload.html") );
 
 
 
