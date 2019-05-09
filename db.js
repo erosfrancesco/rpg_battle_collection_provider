@@ -1,12 +1,10 @@
-require('dotenv').config();
-
 const mongoose = require('mongoose');
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useCreateIndex', true);
 
 
-const db = mongoose.connect(process.env.DATABASE_URL).then(
+const db = mongoose.connect(process.env.MONGODB_URI).then(
   () => { 
   	console.log("connected to db")
   },
