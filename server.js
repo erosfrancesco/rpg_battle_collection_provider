@@ -98,6 +98,6 @@ app.route("/sprites")
 			return console.error(err);
 		}
 		
-		res.json(item);
+		res.json(req.body);
 	});
 })
