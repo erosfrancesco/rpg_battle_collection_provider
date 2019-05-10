@@ -63,6 +63,21 @@ app.route("/sprites")
 .get(async (req, res) => {
 	const {Sprites} = req.context.models;
 
+	Sprites.find()
+	//where('sport').equals('Tennis').
+	//where('age').gt(17).lt(50).  //Additional where query
+	//sort({ age: -1 }).
+	.limit(5)
+	.select('src label')
+	.exec((err, items) => {
+		if (err) {
+			res.status(500).json(err);
+			return console.error(err);
+		}
+		res.json(items);
+	});
+
+	/*
 	const filters = {};
 	Sprites.find(filters, (err, items) => {
 		if (err) {
@@ -71,6 +86,7 @@ app.route("/sprites")
 		}
 		res.json(items);
 	});
+	/**/
 })
 .post(async (req, res) => {
 	const {Sprites} = req.context.models;
@@ -85,6 +101,3 @@ app.route("/sprites")
 		res.json(item);
 	});
 })
-
-
-
