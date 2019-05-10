@@ -1,3 +1,4 @@
+// vars
 const mongoose = require('mongoose');
 
 mongoose.set('useNewUrlParser', true);
@@ -6,6 +7,7 @@ mongoose.set('useCreateIndex', true);
 process.env.MONGODB_URL = process.env.MONGODB_URL || "mongodb+srv://jester:Bondrewd717@rpgbattle-eztzq.mongodb.net/test?retryWrites=true"
 
 
+// connect
 const db = mongoose.connect(process.env.MONGODB_URL).then(
   () => { 
   	console.log("connected to db")
@@ -21,4 +23,6 @@ const gracefulExit = () => mongoose.connection.close(() => {
 });
 process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
 
+
+//
 module.exports = db;
