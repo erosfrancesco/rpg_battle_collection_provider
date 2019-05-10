@@ -1,8 +1,3 @@
-/*********************************************************************/
-/* PROCESS */
-/*********************************************************************/
-//process.chdir(__dirname);
-
 //require('dotenv').config();
 const express = require('express');
 //const config = require('./config');
@@ -26,7 +21,10 @@ app.get("/", async (req, res) => {
 /**/
 
 app.get("/", async (req, res) => res.sendFile(__dirname + "/testUpload.html") );
-
+//process.env.PORT = 80;
+const serverInitResponseHandler = error => console[error ? `error` : `log`](error ||  `server listening on port ${process.env.PORT}`); 
+app.listen(process.env.PORT, serverInitResponseHandler);
+/**/
 
 
 /*
@@ -46,4 +44,5 @@ const serverInitResponseHandler = error => console[error ? `error` : `log`](erro
 const db = require("./db");
 db.then(() => app.listen(process.env.PORT, serverInitResponseHandler) );
 /**/
+
 
