@@ -48,12 +48,12 @@ app.post("/", async (req, res) => {
 });
 /**/
 
-/*
+
 const serverInitResponseHandler = error => console[error ? `error` : `log`](error ||  `server listening on port ${process.env.PORT}`); 
 app.listen(process.env.PORT, serverInitResponseHandler);
 /**/
 
-
+/*
 app.get("/upload", async (req, res) => res.sendFile(__dirname + "/testUpload.html") );
 const serverInitResponseHandler = error => console[error ? `error` : `log`](error ||  `server listening on port ${process.env.PORT}`); 
 const db = require("./db");
