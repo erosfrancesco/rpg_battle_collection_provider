@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useCreateIndex', true);
 
-process.env.MONGODB_URL = process.env.MONGODB_URL || "mongodb+srv://jester:Bondrewd717@rpgbattle-eztzq.mongodb.net/test?retryWrites=true"
+process.env.MONGODB_URL = process.env.MONGODB_URL || "mongodb+srv://jester:Bondrewd717@rpgbattle-eztzq.mongodb.net/main?retryWrites=true"
 
 
 // If the Node process ends, close the Mongoose connection
