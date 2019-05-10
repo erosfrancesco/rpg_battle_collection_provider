@@ -21,6 +21,7 @@ app.get("/", async (req, res) => {
 /**/
 
 app.get("/", async (req, res) => res.sendFile(__dirname + "/testUpload.html") );
+/*
 //process.env.PORT = 80;
 const serverInitResponseHandler = error => console[error ? `error` : `log`](error ||  `server listening on port ${process.env.PORT}`); 
 app.listen(process.env.PORT, serverInitResponseHandler);
@@ -38,7 +39,7 @@ mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://127.0.0.1:27017/TodoApp'
 const { connectDb, models } = require('./src/models');
 
 const createTestUser = async username => await models.User({username}).save();
-/**
+/**/
 
 const serverInitResponseHandler = error => console[error ? `error` : `log`](error ||  `server listening on port ${process.env.PORT}`); 
 const db = require("./db");
