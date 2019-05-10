@@ -3,18 +3,18 @@
 /*********************************************************************/
 const express = require('express');
 const app = express();
-//const models = require("./models")
 
 process.env.PORT = process.env.PORT || 80;
 
-/*
+
 // Mongoose middleware
+const models = require("./models")
 app.use(async (req, res, next) => {
 	req.context = { models };
 	next();
 });
 
-/*
+
 
 //
 app.get("/", async (req, res) => {
