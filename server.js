@@ -42,8 +42,8 @@ app.post("/", async (req, res) => {
 			return console.error(err);
 		}
 		console.log("fluffy saved")
-		fluffy.speak();
-		res.json(fluffy)
+		const meow = fluffy.meow();
+		res.json({meow})
 	});
 });
 /**/
