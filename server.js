@@ -3,47 +3,46 @@
 /*********************************************************************/
 const express = require('express');
 const app = express();
+const models = require("./models");
 
 process.env.PORT = process.env.PORT || 80;
 
 
 // Mongoose middleware
-const models = require("./models")
 app.use(async (req, res, next) => {
 	req.context = { models };
 	next();
 });
 
+// body-parser goodbye!
+app.use(express.json());
 
 
-//
+/*
 app.get("/", async (req, res) => {
-	
-	const {Kitten} = req.context.models;
-	//const filters = { name: /^fluffy/ };
+	const {Sprites} = req.context.models;
+
 	const filters = {};
-	Kitten.find(filters, (err, kittens) => {
+	Sprites.find(filters, (err, items) => {
 		if (err) {
 			res.status(500).json(err);
 			return console.error(err);
 		}
-		res.json(kittens);
+		res.json(items);
 	});
 });
 
 app.post("/", async (req, res) => {
+	const {Sprites} = req.context.models;
+	const itemToBeSaved = new Sprites(req.body);
 
-	const {Kitten} = req.context.models;
-	const fluffy = new Kitten({ name: 'kit' });
-
-	fluffy.save((err, fluffy) => {
+	itemToBeSaved.save((err, item) => {
 		if (err) {
 			res.status(500).json(err);
 			return console.error(err);
 		}
-		console.log("fluffy saved")
-		const meow = fluffy.meow();
-		res.json({meow})
+		
+		res.json(item)
 	});
 });
 /**/
@@ -56,7 +55,36 @@ app.listen(process.env.PORT, serverInitResponseHandler);
 
 app.get("/upload", async (req, res) => res.sendFile(__dirname + "/testUpload.html") );
 const serverInitResponseHandler = error => console[error ? `error` : `log`](error ||  `server listening on port ${process.env.PORT}`); 
-const db = require("./db");
-db.then(() => app.listen(process.env.PORT, serverInitResponseHandler) );
-/**/
+const connectToDb = require("./db");
+connectToDb((err, res) => app.listen(process.env.PORT, serverInitResponseHandler) );
+
+
+app.route("/sprites")
+.get(async (req, res) => {
+	const {Sprites} = req.context.models;
+
+	const filters = {};
+	Sprites.find(filters, (err, items) => {
+		if (err) {
+			res.status(500).json(err);
+			return console.error(err);
+		}
+		res.json(items);
+	});
+})
+.post(async (req, res) => {
+	const {Sprites} = req.context.models;
+	const itemToBeSaved = new Sprites(req.body);
+
+	itemToBeSaved.save((err, item) => {
+		if (err) {
+			res.status(500).json(err);
+			return console.error(err);
+		}
+		
+		res.json(item);
+	});
+})
+
+
 
