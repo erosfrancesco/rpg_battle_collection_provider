@@ -1,6 +1,11 @@
 //const mongoose = require("mongoose");
 
-const Sprites = require("./sprites")
+const actions = require("./actions");
+const ai = require("./ai");
+const battle = require("./battle");
+const commands = require("./commands");
+const objects = require("./objects");
+const sprites = require("./sprites");
 
 /*
 const kittySchema = new mongoose.Schema({name: String});
@@ -14,4 +19,11 @@ kittySchema.methods.speak = function() {
 const Kitten = mongoose.model('Kitten', kittySchema);
 /**/
 
-module.exports = { Sprites };
+module.exports = { 
+	actions,
+	ai,
+	battle, 
+	commands, 
+	objects,
+	sprites
+};
