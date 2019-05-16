@@ -5,9 +5,6 @@ const app = require('express')();
 
 process.env.PORT = process.env.PORT || 80;
 
-// routes for categories
-const categoryRouting = require("./routings");
-app.use(categoryRouting);
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -15,7 +12,9 @@ app.use((req, res, next) => {
   next();
 });
 
-
+// routes for categories
+const categoryRouting = require("./routings");
+app.use(categoryRouting);
 
 /*
 const serverInitResponseHandler = error => console[error ? `error` : `log`](error ||  `server listening on port ${process.env.PORT}`); 
