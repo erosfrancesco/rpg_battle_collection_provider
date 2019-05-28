@@ -11,6 +11,10 @@ const mongoose = require("mongoose");
 const schema = new mongoose.Schema({
 	label: String,
 	properties: {
+		waterfall: [{
+			params: { type: String, default: "scene, actor, callback" },
+			body: String
+		}],
 		body: [String],
 		params: [{
 			type: String, default: "scene, actor, callback"
