@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const models = require("./models");
 
+// FUCKING CORS!
+const cors = require('cors')
+app.use(cors())
+
 router.use(express.json());
 
 
