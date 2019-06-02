@@ -2,7 +2,7 @@
 
 const actions = require("./actions");
 const ai = require("./ai");
-const sprites = require("./animations");
+const animations = require("./animations");
 const battle = require("./battle");
 const commands = require("./commands");
 const objects = require("./objects");
