@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 const models = require("./models");
 
+router.use(express.json());
+
 // FUCKING CORS!
 const cors = require('cors')
-app.use(cors())
-
-router.use(express.json());
+router.use(cors())
+//
 
 
 // Category middleware
