@@ -29,10 +29,17 @@ const schema = new mongoose.Schema({
 	label: String,
 	properties: {
 		animations: [{
+			type: mongoose.Schema.Types.ObjectId, 
+			ref: 'animations'
+		}
+		/*
+		{
 			name: String,
 			body: String,
 			params: {type: String, default: "scene, options, callback"}
-    	}],
+    	}
+    	*/
+    	],
 		create: {
 			body: String,
 			params: {type: String, default: "scene, options, callback"}
