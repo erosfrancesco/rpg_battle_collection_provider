@@ -33,7 +33,7 @@ const schema = new mongoose.Schema({
 			body: String,
 			params: {type: String, default: "scene, options, callback"}
     	}],
-		build: {
+		create: {
 			body: String,
 			params: {type: String, default: "scene, options, callback"}
 		},
@@ -41,7 +41,7 @@ const schema = new mongoose.Schema({
 			body: String,
 			params: {type: String, default: "scene, options, callback"}
 		},
-		preload: {
+		setup: {
 			body: String,
 			params: {type: String, default: "scene, options, callback"}
 		}
