@@ -2,6 +2,7 @@
 
 const actions = require("./actions");
 const ai = require("./ai");
+const sprites = require("./animations");
 const battle = require("./battle");
 const commands = require("./commands");
 const objects = require("./objects");
@@ -22,6 +23,7 @@ const Kitten = mongoose.model('Kitten', kittySchema);
 module.exports = { 
 	actions,
 	ai,
+	animations,
 	battle, 
 	commands, 
 	objects,
