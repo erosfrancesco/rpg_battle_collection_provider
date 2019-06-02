@@ -12,7 +12,7 @@ const mongoose = require("mongoose");
 const schema = new mongoose.Schema({
 	label: String,
 	properties: {
-		build: {
+		create: {
 			body: String,
 			params: {
 				type: String, default: "scene, actor, callback"
@@ -24,7 +24,7 @@ const schema = new mongoose.Schema({
 				type: String, default: "scene, actor, callback"
 			}
 		},
-		imports: {
+		setup: {
 			body: String,
 			params: {
 				type: String, default: "scene, actor, callback"

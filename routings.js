@@ -76,6 +76,7 @@ router.route("/:category/:id")
 		});
 	})
 	.patch(middleware, async (req, res) => {
+
 		const {category, id} = req.params;
 		const update = req.body;
 		const selectedCategory = models[category];
@@ -105,5 +106,20 @@ router.route("/:category/:id")
 	});
 //
 
+
+// import
+router.post("/import/:category/", async (req, res) => {
+	const {category} = req.params;
+	const items = req.body;
+	const results = []
+
+	for (let item of items) {
+		const itemToBeSaved = new models[category](item);
+		const saved = await itemToBeSaved.save().catch(err => console.error(err))
+		results.push(saved)
+	}
+
+	res.json(results);
+})
 
 module.exports = router;
