@@ -126,9 +126,4 @@ router.post("/import/:category/", async (req, res) => {
 	res.json(results);
 })
 
-<<<<<<< HEAD
 module.exports = router;
-=======
-//
-module.exports = router;
->>>>>>> c0dc09d8e30b7f4de48846cc5c42dbee91c9bc46
