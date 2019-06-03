@@ -63,11 +63,15 @@ router.route("/:category")
 	})
 /**/
 
+
+
 /**/
-router.get(":/category/findById", async (req, res) => {
-	const {category, ids=[]} = req.params;
+router.get("/:category/findById", async (req, res) => {
+
+	const {category} = req.params;
+	const {id=[]} = req.query;
 	const selectedCategory = models[category];
-	const selectedids = (Array.isArray(ids)) ? ids : [ids];
+	const selectedids = (Array.isArray(id)) ? id : [id];ß
 
 	selectedCategory.find({ "_id": { $in: selectedids } })
 	.exec((err, items) => {
@@ -76,10 +80,9 @@ router.get(":/category/findById", async (req, res) => {
 			return console.error(err);
 		}
 		res.json(items);
-	});	
+	});
 })
 /**/
-
 
 /**/
 router.route("/:category/:id")
