@@ -71,7 +71,7 @@ router.get("/:category/findById", async (req, res) => {
 	const {category} = req.params;
 	const {id=[]} = req.query;
 	const selectedCategory = models[category];
-	const selectedids = (Array.isArray(id)) ? id : [id];ß
+	const selectedids = (Array.isArray(id)) ? id : [id];
 
 	selectedCategory.find({ "_id": { $in: selectedids } })
 	.exec((err, items) => {
