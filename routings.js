@@ -65,11 +65,11 @@ router.route("/:category")
 
 /**/
 router.get(":/category/findById", async (req, res) => {
-	const {category, ids=[], select="id"} = req.params;
+	const {category, ids=[]} = req.params;
 	const selectedCategory = models[category];
+	const selectedids = (Array.isArray(ids)) ? ids : [ids];
 
-	selectedCategory.find().select(select)
-	.where('ids').equals(ids)
+	selectedCategory.find({ "_id": { $in: selectedids } })
 	.exec((err, items) => {
 		if (err) {
 			res.status(500).json(err);
