@@ -63,7 +63,23 @@ router.route("/:category")
 	})
 /**/
 
-//router.route("/:category/groups")
+/**/
+router.get(":/category/findById", async (req, res) => {
+	const {category, ids=[], select="id"} = req.params;
+	const selectedCategory = models[category];
+
+	selectedCategory.find().select(select)
+	.where('ids').equals(ids)
+	.exec((err, items) => {
+		if (err) {
+			res.status(500).json(err);
+			return console.error(err);
+		}
+		res.json(items);
+	});	
+})
+/**/
+
 
 /**/
 router.route("/:category/:id")

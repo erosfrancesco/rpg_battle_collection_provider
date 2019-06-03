@@ -11,6 +11,7 @@ const mongoose = require("mongoose");
 const schema = new mongoose.Schema({
 	label: String,
 	properties: {
+		type:   {type: String, default: "other"},
 		body:   {type: String, default: ""},
 		params: {type: String, default: "scene, options, callback"}
 	}
