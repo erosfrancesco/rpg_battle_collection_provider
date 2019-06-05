@@ -1,6 +1,7 @@
 //const mongoose = require("mongoose");
 
 const actions = require("./actions");
+const actors = require("./actors");
 const ai = require("./ai");
 const animations = require("./animations");
 const battle = require("./battle");
@@ -22,6 +23,7 @@ const Kitten = mongoose.model('Kitten', kittySchema);
 
 module.exports = { 
 	actions,
+	actors,
 	ai,
 	animations,
 	battle, 
