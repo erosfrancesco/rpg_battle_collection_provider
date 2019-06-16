@@ -15,7 +15,7 @@ const schema = new mongoose.Schema({
 		create: {
 			body: String,
 			params: {
-				type: String, default: "scene, action, executor, target, options, callback"
+				type: String, default: "scene, action, executor, target, options"
 			}
 		},
 		resolve: {
@@ -27,7 +27,7 @@ const schema = new mongoose.Schema({
 		setup: {
 			body: String,
 			params: {
-				type: String, default: "scene, options, callback"
+				type: String, default: "scene"
 			}
 		}
 	}
