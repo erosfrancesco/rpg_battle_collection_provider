@@ -15,13 +15,13 @@ const schema = new mongoose.Schema({
 		create: {
 			body: String,
 			params: {
-				type: String, default: "scene", "action", "executor", "target", "options"
+				type: String, default: "scene, action, executor, target, options, callback"
 			}
 		},
 		resolve: {
 			body: String,
 			params: {
-				type: String, default: "scene", "action", "executor", "target", "options"
+				type: String, default: "scene, action, executor, target, options, callback"
 			}
 		},
 		setup: {
