@@ -12,7 +12,7 @@ const schema = new mongoose.Schema({
 	label: String,
 	properties: {
 		type:   {type: String, default: "other"},
-		body:   {type: String, default: ""},
+		body:   {type: String, default: "callback();"},
 		params: {type: String, default: "scene, options, callback"}
 	}
 });

@@ -4,12 +4,15 @@ const schema = new mongoose.Schema({
 	label: String,
 	properties: {
 		src: String,
-		frameWidth: Number,
-		frameHeight: Number,
-		frameX: Number,
-		frameY: Number,
-		scaleX: Number,
-		scaleY: Number
+
+		frameWidth:  { type: Number, default: 100 },
+		frameHeight: { type: Number, default: 100 },
+		
+		frameX: { type: Number, default: 0 },
+		frameY: { type: Number, default: 0 },
+		
+		scaleX: { type: Number, default: 100 },
+		scaleY: { type: Number, default: 100 },
 	}
 });
 

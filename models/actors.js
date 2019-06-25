@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
 const {ObjectId} = mongoose.Schema.Types;
+
+const EncodedFunctionEvent = {
+    params: { type: String, default: "scene, options, callback" },
+    body: { type: String, default: "callback();" }
+}
 /*
 {
     "label": "Terra",
@@ -27,9 +32,15 @@ const schema = new mongoose.Schema({
 	label: String,
     properties: {
         name: String,
-        canBeEnemy: Boolean,
-        canBeAlly: Boolean,
+        canBeEnemy: { type: Boolean, default: false },
+        canBeAlly: { type: Boolean, default: false },
         stats: [Map],
+        events: {
+            attack: EncodedFunctionEvent,
+            damage: EncodedFunctionEvent,
+            ko: EncodedFunctionEvent,
+            revive: EncodedFunctionEvent
+        },
         sprite: ObjectId,
         actorCommands: [ObjectId],
         ai: ObjectId
