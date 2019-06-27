@@ -31,27 +31,20 @@ const schema = new mongoose.Schema({
 		animations: [{
 			type: mongoose.Schema.Types.ObjectId, 
 			ref: 'animations'
-		}
-		/*
-		{
-			name: String,
-			body: String,
-			params: {type: String, default: "scene, options, callback"}
-    	}
-    	*/
-    	],
+		}],
 		create: {
 			body: String,
-			params: {type: String, default: "scene, options, callback"}
+			params: {type: String, default: "scene, battleObject, options, callback"}
 		},
 		destroy: {
 			body: String,
-			params: {type: String, default: "scene, options, callback"}
+			params: {type: String, default: "scene, battleObject, options, callback"}
 		},
 		setup: {
 			body: String,
 			params: {type: String, default: "scene, options, callback"}
-		}
+		},
+		type: { type: String, default: "generic" }
 	}
 });
 
