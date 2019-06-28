@@ -28,28 +28,28 @@ const schema = new mongoose.Schema({
 			options: {
 				x: Number,
 				y: Number,
-				isEnemy: { type: String, default: false },
-				isAlly:  { type: String, default: false }
+				isEnemy: { type: Boolean, default: false },
+				isAlly:  { type: Boolean, default: false }
 			}
 		}],
 		preload: {
-			body: String,
+			body: {type: String, default: ""},
 			params: {type: String, default: "scene, options"}
 		},
 		create: {
-			body: String,
+			body: {type: String, default: "callback();"},
 			params: {type: String, default: "scene, options, callback"}
 		},
 		update: {
-			body: String,
+			body: {type: String, default: "callback();"},
 			params: {type: String, default: "scene, options, callback"}
 		},
 		onLose: {
-			body: String,
+			body: {type: String, default: ""},
 			params: {type: String, default: "scene, options"}
 		},
 		onWin: {
-			body: String,
+			body: {type: String, default: ""},
 			params: {type: String, default: "scene, options"}
 		}
 	}
