@@ -24,11 +24,12 @@ const schema = new mongoose.Schema({
 	label: String,
 	properties: {
 		actors: [{
-			label: String,
+			id: String,
 			options: {
 				x: Number,
 				y: Number,
-				isEnemy: Boolean
+				isEnemy: { type: String, default: false },
+				isAlly:  { type: String, default: false }
 			}
 		}],
 		preload: {
@@ -37,11 +38,11 @@ const schema = new mongoose.Schema({
 		},
 		create: {
 			body: String,
-			params: {type: String, default: "scene, options"}
+			params: {type: String, default: "scene, options, callback"}
 		},
 		update: {
 			body: String,
-			params: {type: String, default: "scene, options"}
+			params: {type: String, default: "scene, options, callback"}
 		},
 		onLose: {
 			body: String,
