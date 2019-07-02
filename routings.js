@@ -28,7 +28,81 @@ const middleware = (req, res, next) => {
 }
 
 
-//
+/*
+router.route("/groups")
+	.get(middleware, async (req, res) => {
+		models.groups.find()
+		.exec((err, items) => {
+			if (err) {
+				res.status(500).json(err);
+				return console.error(err);
+			}
+			res.json(items);
+		});
+	})
+	.post(middleware, async (req, res) => {
+		const itemToBeSaved = new models.groups(req.body);
+
+		itemToBeSaved.save((err, item) => {
+			if (err) {
+				res.status(500).json(err);
+				return console.error(err);
+			}
+			
+			res.json(item);
+		});
+	})
+/**/
+
+
+/* Maybe its not necessary... 
+router.route("/groups/:id")
+	.get(middleware, async (req, res) => {
+		const {id} = req.params;
+		const selectedCategory = models.groups;
+
+		selectedCategory.findById(id)
+		.exec((err, item) => {
+			if (err) {
+				res.status(500).json(err);
+				return console.error(err);
+			}
+			res.json(item);
+		});
+	})
+	.patch(middleware, async (req, res) => {
+
+		const {id} = req.params;
+		const update = req.body;
+		const selectedCategory = models.groups;
+
+		const options = { new: true };
+
+		selectedCategory.findByIdAndUpdate(id, update, options)
+		.exec((err, item) => {
+			if (err) {
+				res.status(500).json(err);
+				return console.error(err);
+			}
+			res.json(item);
+		});
+	})
+	.delete(middleware, async (req, res) => {
+		const {id} = req.params;
+		const selectedCategory = models.groups;
+		selectedCategory.findByIdAndRemove(id)
+		.exec((err, item) => {
+			if (err) {
+				res.status(500).json(err);
+				return console.error(err);
+			}
+			res.json(item);
+		})
+	});
+/**/
+
+
+/**/
 router.route("/:category")
 	.get(middleware, async (req, res) => {
 		const {category} = req.params;
@@ -62,7 +136,6 @@ router.route("/:category")
 		});
 	})
 /**/
-
 
 
 /**/
@@ -128,7 +201,7 @@ router.route("/:category/:id")
 			res.json(item);
 		})
 	});
-//
+/**/
 
 
 // import

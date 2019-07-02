@@ -22,6 +22,10 @@ const mongoose = require("mongoose");
 */
 const schema = new mongoose.Schema({
 	label: String,
+	groups: [{
+		type: mongoose.Schema.Types.ObjectId, 
+		ref: 'groups'
+	}],
 	properties: {
 		actors: [{
 			id: String,

@@ -9,6 +9,9 @@ const commands = require("./commands");
 const objects = require("./objects");
 const sprites = require("./sprites");
 
+
+const groups = require("./groups");
+
 /*
 const kittySchema = new mongoose.Schema({name: String});
 
@@ -29,5 +32,7 @@ module.exports = {
 	battle, 
 	commands, 
 	objects,
-	sprites
+	sprites,
+	
+	groups
 };

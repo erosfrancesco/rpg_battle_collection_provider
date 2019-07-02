@@ -30,6 +30,10 @@ const EncodedFunctionEvent = {
 
 const schema = new mongoose.Schema({
 	label: String,
+    groups: [{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'groups'
+    }],
     properties: {
         name: String,
         canBeEnemy: { type: Boolean, default: false },
