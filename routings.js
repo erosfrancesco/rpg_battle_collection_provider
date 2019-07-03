@@ -51,35 +51,6 @@ router.use(cors())
 /**/
 
 
-/**/
-router.route("/groups/:group/:category")
-	.get(groupMiddleware, categoryMiddleware, async (req, res) => {
-		const {category, group} = req.params;
-		const selectedCategory = models[category];
-
-		selectedCategory.find({ "groups": { $in: group } })
-		.exec((err, items) => {
-			if (err) {
-				res.status(500).json(err);
-				return console.error(err);
-			}
-			res.json(items);
-		});
-	});
-
-	router.post("/:group/", async (req, res) => {
-		const itemToBeSaved = new models.groups(req.body);
-
-		itemToBeSaved.save((err, item) => {
-			if (err) {
-				res.status(500).json(err);
-				return console.error(err);
-			}
-			
-			res.json(item);
-		});
-	});
-/**/
 
 
 
@@ -186,7 +157,7 @@ router.route("/:category/:id")
 /**/
 
 
-// import
+/* import */
 router.post("/import/:category/", categoryMiddleware, async (req, res) => {
 	const {category} = req.params;
 	const items = req.body;
@@ -200,5 +171,38 @@ router.post("/import/:category/", categoryMiddleware, async (req, res) => {
 
 	res.json(results);
 })
+/**/
+
+
+/* Groups */
+router.route("/groups/:group/:category")
+	.get(groupMiddleware, categoryMiddleware, async (req, res) => {
+		const {category, group} = req.params;
+		const selectedCategory = models[category];
+
+		selectedCategory.find({ "groups": { $in: group } })
+		.exec((err, items) => {
+			if (err) {
+				res.status(500).json(err);
+				return console.error(err);
+			}
+			res.json(items);
+		});
+	});
+
+	router.post("/groups/:group/", async (req, res) => {
+		const itemToBeSaved = new models.groups(req.body);
+
+		itemToBeSaved.save((err, item) => {
+			if (err) {
+				res.status(500).json(err);
+				return console.error(err);
+			}
+			
+			res.json(item);
+		});
+	});
+/**/
+
 
 module.exports = router;
