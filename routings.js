@@ -52,7 +52,7 @@ router.use(cors())
 
 
 /**/
-router.route("/:group/:category")
+router.route("/groups/:group/:category")
 	.get(groupMiddleware, categoryMiddleware, async (req, res) => {
 		const {category, group} = req.params;
 		const selectedCategory = models[category];
