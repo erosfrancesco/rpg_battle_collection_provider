@@ -37,7 +37,7 @@ router.use(cors())
 			return
 		}
 
-		models.groups.findById(id, (err, items) => {
+		models.groups.findById(group, (err, items) => {
 
 			if (err) {
 				res.status(404).end("Group not found: " + group);
