@@ -11,7 +11,7 @@ router.use(cors())
 
 
 // Category middleware
-const middleware = (req, res, next) => {
+const categoryMiddleware = (req, res, next) => {
 	const {category} = req.params;
 
 	if (!category) {
@@ -25,13 +25,37 @@ const middleware = (req, res, next) => {
 	}
 
 	next();
+};
+
+
+const groupMiddleware = (req, res, next) => {
+	const {group} = req.params;
+
+	if (!group) {
+		res.status(404).end("No group.");
+		return
+	}
+
+	models.groups.findById(id, (err, items) => {
+
+		if (err) {
+			res.status(404).end("Group not found: " + group);
+			console.error(err);
+			return;
+		}
+
+		next();
+	});
 }
 
 
-/*
-router.route("/groups")
-	.get(middleware, async (req, res) => {
-		models.groups.find()
+/**/
+router.route("/:group/:category")
+	.get(groupMiddleware, categoryMiddleware, async (req, res) => {
+		const {category, group} = req.params;
+		const selectedCategory = models[category];
+
+		selectedCategory.find({ "groups": { $in: group } })
 		.exec((err, items) => {
 			if (err) {
 				res.status(500).json(err);
@@ -39,8 +63,10 @@ router.route("/groups")
 			}
 			res.json(items);
 		});
-	})
-	.post(middleware, async (req, res) => {
+	});
+
+router.route("/:group/")
+	.post(async (req, res) => {
 		const itemToBeSaved = new models.groups(req.body);
 
 		itemToBeSaved.save((err, item) => {
@@ -51,60 +77,15 @@ router.route("/groups")
 			
 			res.json(item);
 		});
-	})
-/**/
-
-
-/* Maybe its not necessary... 
-router.route("/groups/:id")
-	.get(middleware, async (req, res) => {
-		const {id} = req.params;
-		const selectedCategory = models.groups;
-
-		selectedCategory.findById(id)
-		.exec((err, item) => {
-			if (err) {
-				res.status(500).json(err);
-				return console.error(err);
-			}
-			res.json(item);
-		});
-	})
-	.patch(middleware, async (req, res) => {
-
-		const {id} = req.params;
-		const update = req.body;
-		const selectedCategory = models.groups;
-
-		const options = { new: true };
-
-		selectedCategory.findByIdAndUpdate(id, update, options)
-		.exec((err, item) => {
-			if (err) {
-				res.status(500).json(err);
-				return console.error(err);
-			}
-			res.json(item);
-		});
-	})
-	.delete(middleware, async (req, res) => {
-		const {id} = req.params;
-		const selectedCategory = models.groups;
-		selectedCategory.findByIdAndRemove(id)
-		.exec((err, item) => {
-			if (err) {
-				res.status(500).json(err);
-				return console.error(err);
-			}
-			res.json(item);
-		})
 	});
 /**/
 
 
+
+
 /**/
 router.route("/:category")
-	.get(middleware, async (req, res) => {
+	.get(categoryMiddleware, async (req, res) => {
 		const {category} = req.params;
 		const selectedCategory = models[category];
 
@@ -122,7 +103,7 @@ router.route("/:category")
 			res.json(items);
 		});
 	})
-	.post(middleware, async (req, res) => {
+	.post(categoryMiddleware, async (req, res) => {
 		const {category} = req.params;
 		const itemToBeSaved = new models[category](req.body);
 
@@ -139,7 +120,7 @@ router.route("/:category")
 
 
 /**/
-router.get("/:category/findById", async (req, res) => {
+router.get(categoryMiddleware, "/:category/findById", async (req, res) => {
 
 	const {category} = req.params;
 	const {id=[]} = req.query;
@@ -159,7 +140,7 @@ router.get("/:category/findById", async (req, res) => {
 
 /**/
 router.route("/:category/:id")
-	.get(middleware, async (req, res) => {
+	.get(categoryMiddleware, async (req, res) => {
 		const {category, id} = req.params;
 		const selectedCategory = models[category];
 
@@ -172,7 +153,7 @@ router.route("/:category/:id")
 			res.json(item);
 		});
 	})
-	.patch(middleware, async (req, res) => {
+	.patch(categoryMiddleware, async (req, res) => {
 
 		const {category, id} = req.params;
 		const update = req.body;
@@ -189,7 +170,7 @@ router.route("/:category/:id")
 			res.json(item);
 		});
 	})
-	.delete(middleware, async (req, res) => {
+	.delete(categoryMiddleware, async (req, res) => {
 		const {category, id} = req.params;
 		const selectedCategory = models[category];
 		selectedCategory.findByIdAndRemove(id)
@@ -205,7 +186,7 @@ router.route("/:category/:id")
 
 
 // import
-router.post("/import/:category/", async (req, res) => {
+router.post("/import/:category/", categoryMiddleware, async (req, res) => {
 	const {category} = req.params;
 	const items = req.body;
 	const results = []
