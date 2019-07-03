@@ -10,43 +10,45 @@ router.use(cors())
 //
 
 
-// Category middleware
-const categoryMiddleware = (req, res, next) => {
-	const {category} = req.params;
+/**/
+	// Category middleware
+	const categoryMiddleware = (req, res, next) => {
+		const {category} = req.params;
 
-	if (!category) {
-		res.status(404).end("No category.");
-		return
-	}
+		if (!category) {
+			res.status(404).end("No category.");
+			return
+		}
 
-	if (!models[category]) {
-		res.status(404).end("Category route not found for: " + category);
-		return
-	}
-
-	next();
-};
-
-
-const groupMiddleware = (req, res, next) => {
-	const {group} = req.params;
-
-	if (!group) {
-		res.status(404).end("No group.");
-		return
-	}
-
-	models.groups.findById(id, (err, items) => {
-
-		if (err) {
-			res.status(404).end("Group not found: " + group);
-			console.error(err);
-			return;
+		if (!models[category]) {
+			res.status(404).end("Category route not found for: " + category);
+			return
 		}
 
 		next();
-	});
-}
+	};
+
+	// GROUP MIDDLEWARE
+	const groupMiddleware = (req, res, next) => {
+		const {group} = req.params;
+
+		if (!group) {
+			res.status(404).end("No group.");
+			return
+		}
+
+		models.groups.findById(id, (err, items) => {
+
+			if (err) {
+				res.status(404).end("Group not found: " + group);
+				console.error(err);
+				return;
+			}
+
+			next();
+		});
+	}
+/**/
 
 
 /**/
@@ -65,8 +67,7 @@ router.route("/:group/:category")
 		});
 	});
 
-router.route("/:group/")
-	.post(async (req, res) => {
+	router.post("/:group/", async (req, res) => {
 		const itemToBeSaved = new models.groups(req.body);
 
 		itemToBeSaved.save((err, item) => {
@@ -120,7 +121,7 @@ router.route("/:category")
 
 
 /**/
-router.get(categoryMiddleware, "/:category/findById", async (req, res) => {
+router.get("/:category/findById", categoryMiddleware, async (req, res) => {
 
 	const {category} = req.params;
 	const {id=[]} = req.query;
