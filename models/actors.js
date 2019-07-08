@@ -52,7 +52,7 @@ const schema = new mongoose.Schema({
             ko: EncodedFunctionEvent,
             revive: EncodedFunctionEvent,
             custom: [{
-                name: string,
+                name: String,
                 value: EncodedFunctionEvent
             }]
         },
