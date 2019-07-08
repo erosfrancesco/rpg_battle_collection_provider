@@ -24,6 +24,13 @@ const EncodedFunctionEvent = {
             "velocity": 1,
             "intelligence": 1,
             "magic": 1
+        },
+        "events": {
+            "customs": [{
+                name: "onHit"
+                params: ""
+                body
+            }]
         }
 }
 */
@@ -43,7 +50,11 @@ const schema = new mongoose.Schema({
             attack: EncodedFunctionEvent,
             damage: EncodedFunctionEvent,
             ko: EncodedFunctionEvent,
-            revive: EncodedFunctionEvent
+            revive: EncodedFunctionEvent,
+            custom: [{
+                name: string,
+                value: EncodedFunctionEvent
+            }]
         },
         sprite: ObjectId,
         actorCommands: [ObjectId],
