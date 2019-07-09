@@ -49,8 +49,13 @@ const schema = new mongoose.Schema({
         events: {
             attack: EncodedFunctionEvent,
             damage: EncodedFunctionEvent,
-            ko: EncodedFunctionEvent,
+            ko:     EncodedFunctionEvent,
             revive: EncodedFunctionEvent,
+
+            turnStart: EncodedFunctionEvent,
+            turnEnd:   EncodedFunctionEvent,
+
+
             custom: [{
                 name: String,
                 value: EncodedFunctionEvent
