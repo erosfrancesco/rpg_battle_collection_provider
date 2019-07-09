@@ -56,8 +56,12 @@ const schema = new mongoose.Schema({
             ko:     EncodedFunctionEvent,
             revive: EncodedFunctionEvent,
 
-            turnStart: EncodedFunctionEvent,
-            turnEnd:   EncodedFunctionEvent,
+            turnStart:  EncodedFunctionEvent,
+            turnEnd:    EncodedFunctionEvent,
+            turnUpdate: EncodedFunctionEvent,
+
+            battleStart: EncodedFunctionEvent,
+            battleEnd:   EncodedFunctionEvent,
 
 
             custom: [{
