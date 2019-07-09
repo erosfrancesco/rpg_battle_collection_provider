@@ -47,6 +47,10 @@ const schema = new mongoose.Schema({
         canBeAlly: { type: Boolean, default: false },
         stats: [Map],
         events: {
+
+            load:   EncodedFunctionEvent,
+            create: EncodedFunctionEvent,
+
             attack: EncodedFunctionEvent,
             damage: EncodedFunctionEvent,
             ko:     EncodedFunctionEvent,
