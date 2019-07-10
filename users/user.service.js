@@ -33,11 +33,10 @@ async function getById(id) {
 }
 
 async function create(userParam) {
-    console.log("gone n done", userParam);
     // validate
-    // if (await User.find({ username: userParam.username })) {
-    //     throw 'Username "' + userParam.username + '" is already taken';
-    // }
+    if (await User.find({ username: userParam.username })) {
+        throw 'Username "' + userParam.username + '" is already taken';
+    }
 
     // hash password
     if (userParam.password) {

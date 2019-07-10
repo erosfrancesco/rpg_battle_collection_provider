@@ -2,6 +2,19 @@ const express = require('express');
 const router = express.Router();
 const models = require("./models");
 
+/*
+{
+	"username": "jason",
+	"password": "darthvent"
+}
+
+{
+	"username": "freddy",
+	"password": "darthvent"
+}
+
+*/
+
 // JSON BODY PARSER
 router.use(express.json());
 //
@@ -59,6 +72,33 @@ router.use('/users', require('./users/users.controller'));
 			next();
 		});
 	}
+
+	// USER CHECK MIDDLEWARE
+	const isResourceOfUser = (req, res, next) => {
+		const {category, id} = req.params;
+		const selectedCategory = models[category];
+
+		const userCheckOptions = { $or:[ 
+			{'user': null}, 
+			{"user": { $in: req.user.sub }} 
+		]};
+		const idFilterOptions = { "_id": id };
+
+		selectedCategory.countDocuments(Object.assign(userCheckOptions, idFilterOptions)).exec((err, count) => {
+			if (err) {
+				res.status(500).json(err);
+				return console.error(err);
+			}
+			
+			// check if count > 0
+			console.log(count);
+			if (count > 0) {
+				next();
+			} else {
+				res.status(501).end("user not authorized for this resource");
+			}
+		});
+	}
 /**/
 
 
@@ -72,12 +112,18 @@ router.route("/:category")
 		const {category} = req.params;
 		const selectedCategory = models[category];
 
-		selectedCategory.find({ "user": { $in: req.user.sub } })
+		//{ "user": { $in: req.user.sub } })
 		//.where('age').gt(17).lt(50)  //Additional where query
 		//.sort({ age: -1 })
 		//.limit(5)
 		//.select('src label')
-		.exec((err, items) => {
+
+		const userCheckOptions = { $or:[ 
+			{'user': null}, 
+			{"user": { $in: req.user.sub }} 
+		]};
+
+		selectedCategory.find(userCheckOptions).exec((err, items) => {
 			if (err) {
 				res.status(500).json(err);
 				return console.error(err);
@@ -87,7 +133,13 @@ router.route("/:category")
 	})
 	.post(categoryMiddleware, async (req, res) => {
 		const {category} = req.params;
-		const itemOptions = Object.assign(req.body, {user: req.user.sub});
+
+		const {user = []} = req.body;
+		if (user.indexOf(req.user.sub) < 0) {
+			user.push(req.user.sub)
+		}
+		
+		const itemOptions = Object.assign(req.body, {user});
 		const itemToBeSaved = new models[category](itemOptions);
 
 		itemToBeSaved.save((err, item) => {
@@ -110,8 +162,13 @@ router.get("/:category/findById", categoryMiddleware, async (req, res) => {
 	const selectedCategory = models[category];
 	const selectedids = (Array.isArray(id)) ? id : [id];
 
-	selectedCategory.find({ "_id": { $in: selectedids } })
-	.exec((err, items) => {
+	const userCheckOptions = { $or:[ 
+		{'user': null}, 
+		{"user": { $in: req.user.sub }} 
+	]};
+	const idFilterOptions = { "_id": { $in: selectedids } };
+
+	selectedCategory.find(Object.assign(userCheckOptions, idFilterOptions)).exec((err, items) => {
 		if (err) {
 			res.status(500).json(err);
 			return console.error(err);
@@ -127,8 +184,13 @@ router.route("/:category/:id")
 		const {category, id} = req.params;
 		const selectedCategory = models[category];
 
-		selectedCategory.findById(id)
-		.exec((err, item) => {
+		const userCheckOptions = { $or:[ 
+			{'user': null}, 
+			{"user": { $in: req.user.sub }} 
+		]};
+		const idFilterOptions = { "_id": id };
+
+		selectedCategory.find(Object.assign(userCheckOptions, idFilterOptions)).exec((err, item) => {
 			if (err) {
 				res.status(500).json(err);
 				return console.error(err);
@@ -136,7 +198,7 @@ router.route("/:category/:id")
 			res.json(item);
 		});
 	})
-	.patch(categoryMiddleware, async (req, res) => {
+	.patch(categoryMiddleware, isResourceOfUser, async (req, res) => {
 
 		const {category, id} = req.params;
 		const update = req.body;
@@ -153,7 +215,7 @@ router.route("/:category/:id")
 			res.json(item);
 		});
 	})
-	.delete(categoryMiddleware, async (req, res) => {
+	.delete(categoryMiddleware, isResourceOfUser, async (req, res) => {
 		const {category, id} = req.params;
 		const selectedCategory = models[category];
 		selectedCategory.findByIdAndRemove(id)
@@ -191,8 +253,13 @@ router.route("/groups/:group/:category")
 		const {category, group} = req.params;
 		const selectedCategory = models[category];
 
-		selectedCategory.find({ "groups": { $in: group } })
-		.exec((err, items) => {
+		const userCheckOptions = { $or:[ 
+			{'user': null}, 
+			{"user": { $in: req.user.sub }} 
+		]};
+		const groupFilterOptions = { "groups": { $in: group } };
+
+		selectedCategory.find(Object.assign(userCheckOptions, groupFilterOptions)).exec((err, items) => {
 			if (err) {
 				res.status(500).json(err);
 				return console.error(err);
