@@ -1,7 +1,9 @@
-﻿const config = require('../config.json');
-const jwt = require('jsonwebtoken');
+﻿const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../users/user.model');
+
+const jwtHash = process.env.JWT_TOKEN || "BB7C42AB748FCAA7B28DA122F9E4E3916E439226ADF4D007A88A96BB3D3EC4B2";
+
 
 module.exports = {
     authenticate,
@@ -16,7 +18,7 @@ async function authenticate({ username, password }) {
     const user = await User.findOne({ username });
     if (user && bcrypt.compareSync(password, user.hash)) {
         const { hash, ...userWithoutHash } = user.toObject();
-        const token = jwt.sign({ sub: user.id }, config.secret);
+        const token = jwt.sign({ sub: user.id }, jwtHash);
         return {
             ...userWithoutHash,
             token

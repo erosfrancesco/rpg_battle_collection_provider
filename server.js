@@ -2,12 +2,12 @@
 /* PROCESS */
 /*********************************************************************/
 const app = require('express')();
-const cors = require('cors')
+// const cors = require('cors');
 
 process.env.PORT = process.env.PORT || 80;
 
 
-app.use(cors());
+// app.use(cors());
 
 
 // routes for categories
