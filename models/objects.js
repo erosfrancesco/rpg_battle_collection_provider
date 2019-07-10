@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const {Resource, EncodedFunction, idReference} = require("./utils");
 /*
 {
 	"label": "DamageDigits",
@@ -25,31 +26,12 @@ const mongoose = require("mongoose");
 	}
 }
 */
-const schema = new mongoose.Schema({
-	label: String,
-	groups: [{
-		type: mongoose.Schema.Types.ObjectId, 
-		ref: 'groups'
-	}],
-	properties: {
-		animations: [{
-			type: mongoose.Schema.Types.ObjectId, 
-			ref: 'animations'
-		}],
-		create: {
-			body: String,
-			params: {type: String, default: "scene, battleObject, options, callback"}
-		},
-		destroy: {
-			body: String,
-			params: {type: String, default: "scene, battleObject, options, callback"}
-		},
-		setup: {
-			body: String,
-			params: {type: String, default: "scene, options, callback"}
-		},
-		type: { type: String, default: "generic" }
-	}
+const schema = Resource({
+	animations: [ idReference('animations') ],
+	create:  EncodedFunction("scene, battleObject, options, callback"),
+	destroy: EncodedFunction("scene, battleObject, options, callback"),
+	setup:   EncodedFunction("scene, options, callback"),
+	type: { type: String, default: "generic" }
 });
 
 

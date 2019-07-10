@@ -1,25 +1,18 @@
 const mongoose = require("mongoose");
+const {Resource, EncodedFunction} = require("./utils");
 /*
 {
 	"label": "show",
 	"properties": {
+		"type": ""
 		"body": "const {scene} = battleObject;"
 		"params": ""
 	}
 }
 */
-const schema = new mongoose.Schema({
-	label: String,
-	groups: [{
-		type: mongoose.Schema.Types.ObjectId, 
-		ref: 'groups'
-	}],
-	properties: {
-		type:   {type: String, default: "other"},
-		body:   {type: String, default: "callback();"},
-		params: {type: String, default: "scene, options, callback"}
-	}
-});
+const schema = Resource( 
+	EncodedFunction("scene, options, callback", "callback();", { type: {type: String, default: "other"} })
+);
 
 
 

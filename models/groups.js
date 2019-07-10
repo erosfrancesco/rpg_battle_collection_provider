@@ -1,13 +1,8 @@
 const mongoose = require("mongoose");
+const {Resource, EncodedFunction, idReference} = require("./utils");
 
-const schema = new mongoose.Schema({
-	label: String,
-	properties: {
-		parent: {
-			type: mongoose.Schema.Types.ObjectId, 
-			ref: 'groups'
-		}
-	}
+const schema = Resource({
+	parent: idReference('groups')
 });
 
 

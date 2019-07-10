@@ -1,4 +1,9 @@
 const mongoose = require("mongoose");
+const {Resource, EncodedFunction} = require("./utils");
+
+const defaultEncodedEvent = EncodedFunction("scene, options", "");
+const callbackEncodedEvent = EncodedFunction("scene, options, callback", "callback();");
+
 /*
 {
 	"label": "TestBattle",
@@ -20,43 +25,21 @@ const mongoose = require("mongoose");
 	    "update": "//console.log(\"updating\")"
 	}
 */
-const schema = new mongoose.Schema({
-	label: String,
-	groups: [{
-		type: mongoose.Schema.Types.ObjectId, 
-		ref: 'groups'
-	}],
-	properties: {
-		actors: [{
-			id: String,
-			options: {
-				x: Number,
-				y: Number,
-				isEnemy: { type: Boolean, default: false },
-				isAlly:  { type: Boolean, default: false }
-			}
-		}],
-		preload: {
-			body: {type: String, default: ""},
-			params: {type: String, default: "scene, options"}
-		},
-		create: {
-			body: {type: String, default: "callback();"},
-			params: {type: String, default: "scene, options, callback"}
-		},
-		update: {
-			body: {type: String, default: "callback();"},
-			params: {type: String, default: "scene, options, callback"}
-		},
-		onLose: {
-			body: {type: String, default: ""},
-			params: {type: String, default: "scene, options"}
-		},
-		onWin: {
-			body: {type: String, default: ""},
-			params: {type: String, default: "scene, options"}
+const schema = Resource({
+	actors: [{
+		id: String,
+		options: {
+			x: Number,
+			y: Number,
+			isEnemy: { type: Boolean, default: false },
+			isAlly:  { type: Boolean, default: false }
 		}
-	}
+	}],
+	preload: defaultEncodedEvent,
+	create: callbackEncodedEvent,
+	update: callbackEncodedEvent,
+	onLose: defaultEncodedEvent,
+	onWin:  defaultEncodedEvent
 });
 
 

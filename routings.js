@@ -2,12 +2,23 @@ const express = require('express');
 const router = express.Router();
 const models = require("./models");
 
+// JSON BODY PARSER
 router.use(express.json());
+//
 
 // FUCKING CORS!
 const cors = require('cors')
 router.use(cors())
 //
+
+
+// JWT auth middleware
+const jwt = require('./jwt.js');
+router.use(jwt());
+
+
+// user routes
+router.use('/users', require('./users/users.controller'));
 
 
 /**/
@@ -61,10 +72,9 @@ router.route("/:category")
 		const {category} = req.params;
 		const selectedCategory = models[category];
 
-		selectedCategory.find()
-		//where('sport').equals('Tennis').
-		//where('age').gt(17).lt(50).  //Additional where query
-		//sort({ age: -1 }).
+		selectedCategory.find({ "user": { $in: req.user.sub } })
+		//.where('age').gt(17).lt(50)  //Additional where query
+		//.sort({ age: -1 })
 		//.limit(5)
 		//.select('src label')
 		.exec((err, items) => {
@@ -77,7 +87,8 @@ router.route("/:category")
 	})
 	.post(categoryMiddleware, async (req, res) => {
 		const {category} = req.params;
-		const itemToBeSaved = new models[category](req.body);
+		const itemOptions = Object.assign(req.body, {user: req.user.sub});
+		const itemToBeSaved = new models[category](itemOptions);
 
 		itemToBeSaved.save((err, item) => {
 			if (err) {

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const {Resource, EncodedFunction} = require("./utils");
 
 /*
 	{
@@ -10,19 +11,9 @@ const mongoose = require("mongoose");
 	}
 */
 
-const schema = new mongoose.Schema({
+const schema = Resource({
 	label: String,
-	groups: [{
-		type: mongoose.Schema.Types.ObjectId, 
-		ref: 'groups'
-	}],
-	properties: {
-		label: String,
-		action: {
-			body: String,
-			params: {type: String, default: "scene, options, callback"}
-		}
-	}
+	action: EncodedFunction("scene, options, callback")
 });
 
 

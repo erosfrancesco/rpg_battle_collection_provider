@@ -1,4 +1,5 @@
 {
+    "secret": "BB7C42AB748FCAA7B28DA122F9E4E3916E439226ADF4D007A88A96BB3D3EC4B2",
 	"folders": {
         "assets": {
             "sprites": "./assets/sprites/",
@@ -15,4 +16,5 @@
 	        "BattleObjects": "./src/objects/",
 	        "BattleOptions": "./src/battle/"	
         }
+    }
 }

@@ -1,10 +1,9 @@
 const mongoose = require("mongoose");
-const {ObjectId} = mongoose.Schema.Types;
+const {Resource, EncodedFunction, idReference} = require("./utils");
 
-const EncodedFunctionEvent = {
-    params: { type: String, default: "scene, options, callback" },
-    body: { type: String, default: "callback();" }
-}
+const EncodedFunctionEvent = EncodedFunction("scene, options, callback", "callback();");
+const CustomFunctionEvent = EncodedFunction("scene, options, callback", "callback();", { name: String });
+
 /*
 {
     "label": "Terra",
@@ -35,44 +34,34 @@ const EncodedFunctionEvent = {
 }
 */
 
-const schema = new mongoose.Schema({
-	label: String,
-    groups: [{
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'groups'
-    }],
-    properties: {
-        name: String,
-        canBeEnemy: { type: Boolean, default: false },
-        canBeAlly: { type: Boolean, default: false },
-        stats: [Map],
-        events: {
+const schema = Resource({
+    name: String,
+    canBeEnemy: { type: Boolean, default: false },
+    canBeAlly: { type: Boolean, default: false },
+    stats: [Map],
+    events: {
 
-            load:   EncodedFunctionEvent,
-            create: EncodedFunctionEvent,
+        load:   EncodedFunctionEvent,
+        create: EncodedFunctionEvent,
 
-            attack: EncodedFunctionEvent,
-            damage: EncodedFunctionEvent,
-            ko:     EncodedFunctionEvent,
-            revive: EncodedFunctionEvent,
+        attack: EncodedFunctionEvent,
+        damage: EncodedFunctionEvent,
+        ko:     EncodedFunctionEvent,
+        revive: EncodedFunctionEvent,
 
-            turnStart:  EncodedFunctionEvent,
-            turnEnd:    EncodedFunctionEvent,
-            turnUpdate: EncodedFunctionEvent,
+        turnStart:  EncodedFunctionEvent,
+        turnEnd:    EncodedFunctionEvent,
+        turnUpdate: EncodedFunctionEvent,
 
-            battleStart: EncodedFunctionEvent,
-            battleEnd:   EncodedFunctionEvent,
+        battleStart: EncodedFunctionEvent,
+        battleEnd:   EncodedFunctionEvent,
 
 
-            custom: [{
-                name: String,
-                value: EncodedFunctionEvent
-            }]
-        },
-        sprite: ObjectId,
-        actorCommands: [ObjectId],
-        ai: ObjectId
-    }
+        custom: [CustomFunctionEvent]
+    },
+    sprite: idReference("sprites"),
+    actorCommands: [idReference("commands")],
+    ai: idReference("ai")
 });
 
 
