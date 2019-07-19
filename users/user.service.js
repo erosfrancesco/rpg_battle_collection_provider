@@ -1,12 +1,15 @@
 ﻿const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const randtoken = require('rand-token');
 const User = require('../users/user.model');
 
 const jwtHash = process.env.JWT_TOKEN || "BB7C42AB748FCAA7B28DA122F9E4E3916E439226ADF4D007A88A96BB3D3EC4B2";
+const refreshTokens = {};
 
 
 module.exports = {
     authenticate,
+    refreshToken,
     getAll,
     getById,
     create,
@@ -22,12 +25,30 @@ async function authenticate({ username, password }) {
     const user = await User.findOne({ username });
     if (user && bcrypt.compareSync(password, user.hash)) {
         const { hash, ...userWithoutHash } = user.toObject();
-        const token = jwt.sign({ sub: user.id }, jwtHash);
+
+        const token = jwt.sign({ sub: user.id }, jwtHash, { expiresIn: 30 });
+        const refreshToken = randtoken.uid(256);
+        refreshTokens[refreshToken] = username;
+
         return {
             ...userWithoutHash,
-            token
+            token,
+            refreshToken
         };
     }
+}
+
+async function refreshToken({username, refreshToken}) {
+
+        if ( !( (refreshToken in refreshTokens) && (refreshTokens[refreshToken] === username) ) ) {
+            res.sendStatus(401);
+            return;
+        }
+
+        const user = { username };
+        const token = jwt.sign(user, SECRET, { expiresIn: 300 });
+
+        return {token};
 }
 
 async function getAll() {

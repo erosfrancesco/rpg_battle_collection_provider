@@ -27,7 +27,14 @@ router.use(cors())
 
 // JWT auth middleware
 const jwt = require('./jwt.js');
-router.use(jwt());
+router.use(jwt(), (err, req, res, next) => {
+	if (err.code === 'invalid_token') {
+		// token is expired
+		console.log("token is expired!.")
+		return next(err);
+	}
+	return next(err);
+});
 
 
 // user routes
@@ -78,6 +85,8 @@ router.use('/users', require('./users/users.controller'));
 		const {category, id} = req.params;
 		const selectedCategory = models[category];
 
+		// console.log(req.user)
+
 		const userCheckOptions = { $or:[ 
 			{'user': null}, 
 			{"user": { $in: req.user.sub }} 
@@ -91,7 +100,6 @@ router.use('/users', require('./users/users.controller'));
 			}
 			
 			// check if count > 0
-			console.log(count);
 			if (count > 0) {
 				next();
 			} else {
