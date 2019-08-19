@@ -26,19 +26,20 @@ router.use(cors())
 
 
 // JWT auth middleware
-const jwt = require('./jwt.js');
-router.use(jwt(), (err, req, res, next) => {
-	if (err.code === 'invalid_token') {
-		// token is expired
-		console.log("token is expired!.")
-		return next(err);
-	}
-	return next(err);
-});
+// const jwt = require('./jwt.js');
+// router.use(jwt(), (err, req, res, next) => {
+// 	console.log("jtw", err)
+// 	if (err.code === 'invalid_token') {
+// 		// token is expired
+// 		console.log("token is expired!.")
+// 		return next(err);
+// 	}
+// 	return next(err);
+// });
 
 
 // user routes
-router.use('/users', require('./users/users.controller'));
+// router.use('/users', require('./users/users.controller'));
 
 
 /**/
@@ -81,32 +82,32 @@ router.use('/users', require('./users/users.controller'));
 	}
 
 	// USER CHECK MIDDLEWARE
-	const isResourceOfUser = (req, res, next) => {
-		const {category, id} = req.params;
-		const selectedCategory = models[category];
+	// const isResourceOfUser = (req, res, next) => {
+	// 	const {category, id} = req.params;
+	// 	const selectedCategory = models[category];
 
-		// console.log(req.user)
+	// 	// console.log(req.user)
 
-		const userCheckOptions = { $or:[ 
-			{'user': null}, 
-			{"user": { $in: req.user.sub }} 
-		]};
-		const idFilterOptions = { "_id": id };
+	// 	const userCheckOptions = { $or:[ 
+	// 		{'user': null}, 
+	// 		{"user": { $in: req.user.sub }} 
+	// 	]};
+	// 	const idFilterOptions = { "_id": id };
 
-		selectedCategory.countDocuments(Object.assign(userCheckOptions, idFilterOptions)).exec((err, count) => {
-			if (err) {
-				res.status(500).json(err);
-				return console.error(err);
-			}
+	// 	selectedCategory.countDocuments(Object.assign(userCheckOptions, idFilterOptions)).exec((err, count) => {
+	// 		if (err) {
+	// 			res.status(500).json(err);
+	// 			return console.error(err);
+	// 		}
 			
-			// check if count > 0
-			if (count > 0) {
-				next();
-			} else {
-				res.status(501).end("user not authorized for this resource");
-			}
-		});
-	}
+	// 		// check if count > 0
+	// 		if (count > 0) {
+	// 			next();
+	// 		} else {
+	// 			res.status(501).end("user not authorized for this resource");
+	// 		}
+	// 	});
+	// }
 /**/
 
 
@@ -126,12 +127,12 @@ router.route("/:category")
 		//.limit(5)
 		//.select('src label')
 
-		const userCheckOptions = { $or:[ 
-			{'user': null}, 
-			{"user": { $in: req.user.sub }} 
-		]};
+		// const userCheckOptions = { $or:[ 
+		// 	{'user': null}, 
+		// 	{"user": { $in: req.user.sub }} 
+		// ]};
 
-		selectedCategory.find(userCheckOptions).exec((err, items) => {
+		selectedCategory.find().exec((err, items) => {
 			if (err) {
 				res.status(500).json(err);
 				return console.error(err);
@@ -142,13 +143,13 @@ router.route("/:category")
 	.post(categoryMiddleware, async (req, res) => {
 		const {category} = req.params;
 
-		const {user = []} = req.body;
-		if (user.indexOf(req.user.sub) < 0) {
-			user.push(req.user.sub)
-		}
+		// const {user = []} = req.body;
+		// if (user.indexOf(req.user.sub) < 0) {
+		// 	user.push(req.user.sub)
+		// }
 		
-		const itemOptions = Object.assign(req.body, {user});
-		const itemToBeSaved = new models[category](itemOptions);
+		// const itemOptions = Object.assign(req.body, {user});
+		const itemToBeSaved = new models[category](req.body);
 
 		itemToBeSaved.save((err, item) => {
 			if (err) {
@@ -170,13 +171,13 @@ router.get("/:category/findById", categoryMiddleware, async (req, res) => {
 	const selectedCategory = models[category];
 	const selectedids = (Array.isArray(id)) ? id : [id];
 
-	const userCheckOptions = { $or:[ 
-		{'user': null}, 
-		{"user": { $in: req.user.sub }} 
-	]};
+	// const userCheckOptions = { $or:[ 
+	// 	{'user': null}, 
+	// 	{"user": { $in: req.user.sub }} 
+	// ]};
 	const idFilterOptions = { "_id": { $in: selectedids } };
 
-	selectedCategory.find(Object.assign(userCheckOptions, idFilterOptions)).exec((err, items) => {
+	selectedCategory.find(idFilterOptions).exec((err, items) => {
 		if (err) {
 			res.status(500).json(err);
 			return console.error(err);
@@ -192,13 +193,13 @@ router.route("/:category/:id")
 		const {category, id} = req.params;
 		const selectedCategory = models[category];
 
-		const userCheckOptions = { $or:[ 
-			{'user': null}, 
-			{"user": { $in: req.user.sub }} 
-		]};
+		// const userCheckOptions = { $or:[ 
+		// 	{'user': null}, 
+		// 	{"user": { $in: req.user.sub }} 
+		// ]};
 		const idFilterOptions = { "_id": id };
 
-		selectedCategory.find(Object.assign(userCheckOptions, idFilterOptions)).exec((err, item) => {
+		selectedCategory.find(idFilterOptions).exec((err, item) => {
 			if (err) {
 				res.status(500).json(err);
 				return console.error(err);
@@ -206,7 +207,7 @@ router.route("/:category/:id")
 			res.json(item);
 		});
 	})
-	.patch(categoryMiddleware, isResourceOfUser, async (req, res) => {
+	.patch(categoryMiddleware, async (req, res) => {
 
 		const {category, id} = req.params;
 		const update = req.body;
@@ -223,7 +224,7 @@ router.route("/:category/:id")
 			res.json(item);
 		});
 	})
-	.delete(categoryMiddleware, isResourceOfUser, async (req, res) => {
+	.delete(categoryMiddleware, async (req, res) => {
 		const {category, id} = req.params;
 		const selectedCategory = models[category];
 		selectedCategory.findByIdAndRemove(id)
@@ -261,13 +262,13 @@ router.route("/groups/:group/:category")
 		const {category, group} = req.params;
 		const selectedCategory = models[category];
 
-		const userCheckOptions = { $or:[ 
-			{'user': null}, 
-			{"user": { $in: req.user.sub }} 
-		]};
+		// const userCheckOptions = { $or:[ 
+		// 	{'user': null}, 
+		// 	{"user": { $in: req.user.sub }} 
+		// ]};
 		const groupFilterOptions = { "groups": { $in: group } };
 
-		selectedCategory.find(Object.assign(userCheckOptions, groupFilterOptions)).exec((err, items) => {
+		selectedCategory.find(groupFilterOptions).exec((err, items) => {
 			if (err) {
 				res.status(500).json(err);
 				return console.error(err);
