@@ -116,6 +116,13 @@ router.use(cors())
 
 
 /**/
+router.get("/", async (req, res) => {
+	const categories = Object.keys(models)
+	const index = categories.findIndex(name => name === "groups")
+	categories.splice(index, 1)
+	res.json(categories);
+});
+
 router.route("/:category")
 	.get(categoryMiddleware, async (req, res) => {
 		const {category} = req.params;
@@ -213,10 +220,12 @@ router.route("/:category/:id")
 		const update = req.body;
 		const selectedCategory = models[category];
 
-		const options = { new: true };
+		const options = { new: true, lean: true };
+		console.log("updating ", id, category, update)
 
 		selectedCategory.findByIdAndUpdate(id, update, options)
 		.exec((err, item) => {
+			console.log(err, item)
 			if (err) {
 				res.status(500).json(err);
 				return console.error(err);
