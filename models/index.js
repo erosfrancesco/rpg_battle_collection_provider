@@ -4,7 +4,7 @@ const actions = require("./actions");
 const actors = require("./actors");
 const ai = require("./ai");
 const animations = require("./animations");
-const battle = require("./battle");
+const battles = require("./battles");
 const commands = require("./commands");
 const objects = require("./objects");
 const sprites = require("./sprites");
@@ -29,7 +29,7 @@ module.exports = {
 	actors,
 	ai,
 	animations,
-	battle, 
+	battles, 
 	commands, 
 	objects,
 	sprites,
