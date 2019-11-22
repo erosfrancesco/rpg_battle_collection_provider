@@ -26,8 +26,8 @@ router.use(cors())
 
 
 const userController = require('./user.js');
-router.get('/users/all', userController.list);
-router.post('/users/signin', userController.create);
+// router.get('/users/all', userController.list);
+// router.post('/users/signin', userController.create);
 router.post('/users/authenticate', userController.authenticate);
 
 

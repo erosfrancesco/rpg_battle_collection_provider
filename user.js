@@ -3,17 +3,17 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 module.exports = {
-  create: async (req, res, next) => {
+  // create: async (req, res, next) => {
 
-    const {username, password} = req.body
-    userModel.create({username, hash: password}, (err, result) => {
-      if (err) {
-        next(err);
-        return
-      }
-      res.json({status: "success", message: "User added successfully!!!", data: null});
-    });
-  },
+  //   const {username, password} = req.body
+  //   userModel.create({username, hash: password}, (err, result) => {
+  //     if (err) {
+  //       next(err);
+  //       return
+  //     }
+  //     res.json({status: "success", message: "User added successfully!!!", data: null});
+  //   });
+  // },
 
 
   authenticate: async (req, res, next) => {
@@ -57,15 +57,15 @@ module.exports = {
     });
   },
 
-  list: async (req, res) => {
-    userModel.find({}, (err, users) => {
-      if (err) {
-        next(err)
-        return
-      }
+  // list: async (req, res) => {
+  //   userModel.find({}, (err, users) => {
+  //     if (err) {
+  //       next(err)
+  //       return
+  //     }
 
-      res.json({status:"success", message: "users found!!!", data: users});
-    })
-  }
+  //     res.json({status:"success", message: "users found!!!", data: users});
+  //   })
+  // }
 
 }
