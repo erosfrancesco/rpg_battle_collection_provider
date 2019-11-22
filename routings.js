@@ -25,6 +25,27 @@ router.use(cors())
 //
 
 
+const userController = require('./user.js');
+router.get('/users/all', userController.list);
+router.post('/users/signin', userController.create);
+router.post('/users/authenticate', userController.authenticate);
+
+
+
+// const validateUser = (req, res, next) => {
+//   jwt.verify(req.headers['x-access-token'], "secretsToBeEnc6odedOrMoved87905", (err, decoded) => {
+//     if (err) {
+//       res.json({status:"error", message: err.message, data:null});
+//       return
+//     }
+    
+//     // add user id to request
+//     req.body.userId = decoded.id;
+//     next();
+    
+//   }); 
+// }
+
 // JWT auth middleware
 // const jwt = require('./jwt.js');
 // router.use(jwt(), (err, req, res, next) => {
@@ -47,8 +68,15 @@ router.use(cors())
 	const categoryMiddleware = (req, res, next) => {
 		const {category} = req.params;
 
+
+
 		if (!category) {
 			res.status(404).end("No category.");
+			return
+		}
+
+		if (category == "users") {
+			next();
 			return
 		}
 
@@ -299,6 +327,8 @@ router.route("/groups/:group/:category")
 		});
 	});
 /**/
+
+
 
 
 module.exports = router;
