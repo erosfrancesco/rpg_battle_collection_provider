@@ -31,9 +31,12 @@ const userController = require('./user.js');
 router.post('/users/authenticate', userController.authenticate);
 
 
+const jwt = require('express-jwt')
+router.use(jwt({ secret: "secretsToBeEnc6odedOrMoved87905"}).unless({path: ['/users/authenticate']}));
 
 // const validateUser = (req, res, next) => {
 //   jwt.verify(req.headers['x-access-token'], "secretsToBeEnc6odedOrMoved87905", (err, decoded) => {
+// 	  console.log(err, decoded)
 //     if (err) {
 //       res.json({status:"error", message: err.message, data:null});
 //       return
