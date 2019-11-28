@@ -12,7 +12,6 @@ const models = require("./models");
 	"username": "freddy",
 	"password": "darthvent"
 }
-
 */
 
 // JSON BODY PARSER
@@ -25,46 +24,26 @@ router.use(cors())
 //
 
 
-const userController = require('./user.js');
-// router.get('/users/all', userController.list);
-// router.post('/users/signin', userController.create);
-router.post('/users/authenticate', userController.authenticate);
 
+const user = require('./user.js');
+router.post("/users/authenticate", user.authenticate);
+router.post("/users/refreshToken", user.refreshToken);
 
-const jwt = require('express-jwt')
-router.use(jwt({ secret: "secretsToBeEnc6odedOrMoved87905"}).unless({path: ['/users/authenticate']}));
+router.use( user.routingCheck.unless({path: ['/users/authenticate', '/users/refreshToken']}) );
+router.use( (err, req, res, next) => {
+	if (err.name === 'UnauthorizedError') {
 
-// const validateUser = (req, res, next) => {
-//   jwt.verify(req.headers['x-access-token'], "secretsToBeEnc6odedOrMoved87905", (err, decoded) => {
-// 	  console.log(err, decoded)
-//     if (err) {
-//       res.json({status:"error", message: err.message, data:null});
-//       return
-//     }
-    
-//     // add user id to request
-//     req.body.userId = decoded.id;
-//     next();
-    
-//   }); 
-// }
+		console.log(req.path)
 
-// JWT auth middleware
-// const jwt = require('./jwt.js');
-// router.use(jwt(), (err, req, res, next) => {
-// 	console.log("jtw", err)
-// 	if (err.code === 'invalid_token') {
-// 		// token is expired
-// 		console.log("token is expired!.")
-// 		return next(err);
-// 	}
-// 	return next(err);
-// });
+		// if (req.path) {
+		// 	res.status(401).send('expired token');
+		// 	return
+		// }
 
-
-// user routes
-// router.use('/users', require('./users/users.controller'));
-
+	  	res.status(401).send('invalid token');
+	}
+	next(err, req, res)
+});
 
 /**/
 	// Category middleware
