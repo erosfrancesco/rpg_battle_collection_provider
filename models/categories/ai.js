@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const {Resource, EncodedFunction} = require("./utils");
+const {Resource, EncodedFunction} = require("../utils");
 /*
 {
 	"label": "ai test",

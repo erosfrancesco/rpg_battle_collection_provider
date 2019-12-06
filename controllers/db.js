@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useFindAndModify', false);
-
+mongoose.set('useUnifiedTopology', true);
 
 require('dotenv').config()
 
@@ -15,13 +15,7 @@ const gracefulExit = () => mongoose.connection.close(() => {
 process.on('SIGINT', gracefulExit).on('SIGTERM', gracefulExit);
 
 
-// Export as connection function
-module.exports = callback => mongoose.connect(process.env.MONGODB_URL).then(
-	res => { 
-		console.log("connected to db");
-		callback(null, res);
-	},
-	err => {
-		console.error("failed to connect:", err);
-		callback(err);
-});
+const serverInitResponseHandler = error => console[error ? `error` : `log`](error ||  `server listening on port ${process.env.PORT}`); 
+
+module.exports = app => mongoose.connect(process.env.MONGODB_URL)
+.then(app.listen(process.env.PORT, err => serverInitResponseHandler(err) ))

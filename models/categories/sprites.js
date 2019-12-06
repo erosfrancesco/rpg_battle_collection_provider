@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Resource } = require("./utils");
+const { Resource } = require("../utils");
 
 const schema = Resource({
 	src: String,

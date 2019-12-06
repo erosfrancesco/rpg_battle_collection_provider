@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const {Resource, EncodedFunction, idReference} = require("./utils");
+const {Resource, EncodedFunction, idReference} = require("../utils");
 /*
 {
 	"label": "DamageDigits",
