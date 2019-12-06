@@ -83,7 +83,8 @@ module.exports = {
 
   list: async organization => {
     try {
-      return await organizationRoles.find({organization})
+      const ids = await organizationRoles.find({organization})
+      return Array.isArray(ids) ? ids : [ids]
     } catch(err) {
       throw err
     }
