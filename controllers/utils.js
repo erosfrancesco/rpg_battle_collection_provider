@@ -1,7 +1,7 @@
 const Categories = require("../models/categories")
 
 
-const defaultErrorHandler = (res, err) => res.staus(500).end(err)
+const defaultErrorHandler = (res, err) => res.status(500).end(err)
 const defaultResponseHandler = (res, json) => res.status(200).json(json)
 
 const getCategoryModel = req => {
