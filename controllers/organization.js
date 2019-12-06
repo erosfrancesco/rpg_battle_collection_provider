@@ -38,7 +38,7 @@ module.exports = {
       const item = await organization.findByIdAndRemove(id)
       const roles = await OrganizationRoleController.list(id)
 
-      await OrganizationRoleController.remove(id, roles.map(role => role._id))
+      await OrganizationRoleController.remove(roles.map(role => role._id), id)
       
       defaultResponseHandler(res, item)
     } catch(err) {

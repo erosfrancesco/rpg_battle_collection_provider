@@ -1,5 +1,5 @@
 const {organization, organizationRoles} = require('../models');
-const mongoose = require("mongoose")
+// const mongoose = require("mongoose")
 
 
 const checkIfUserRoleExists = async (userRole, organizationId) => {
@@ -82,13 +82,13 @@ module.exports = {
     }
   },
 
-  list: async organizationId => {
+  list: async organization => {
     try {
-      const organization = mongoose.Types.ObjectId(organizationId)
+      // const organization = mongoose.Types.ObjectId(organizationId)
       const ids = await organizationRoles.find({organization})
       return Array.isArray(ids) ? ids : [ids]
     } catch(err) {
-      throw err
+      throw "[listing]" + err
     }
   },
 
@@ -102,9 +102,10 @@ module.exports = {
 
   remove: async (userRoles, organization) => {
     try {
+      console.log(userRoles, organization)
       return await removeUserRoles(userRoles, organization)
     } catch(err) {
-      throw err
+      throw "[remove]" +err
     }
   },
 
