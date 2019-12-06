@@ -81,8 +81,9 @@ module.exports = {
     }
   },
 
-  list: async organization => {
+  list: async organizationId => {
     try {
+      const organization = mongoose.Types.ObjectId(organizationId)
       const ids = await organizationRoles.find({organization})
       return Array.isArray(ids) ? ids : [ids]
     } catch(err) {
